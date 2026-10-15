@@ -86,7 +86,7 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
 
 
 interface LogIn {
-    name: string
+    email: string
     password: string
 }
 
@@ -95,9 +95,9 @@ export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (re
     try {
         const validateData = loginSchema.parse(req.body);
 
-        const { name, password: passwordRaw } = validateData
+        const { email, password: passwordRaw } = validateData
 
-        const user = await users.findOne({ name }).select("+password +email").exec()
+        const user = await users.findOne({ email }).select("+password").exec()
         if (!user) {
             throw (createHttpError(401, "Invalid Credentials"))
         }

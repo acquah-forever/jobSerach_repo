@@ -7,7 +7,7 @@ export const usersSchema = z.object({
 }).strict();
 
 export const loginSchema = z.object({
-    name: z.string().min(1).trim(),
+    email: z.string().min(1).trim(),
     password: z.string().min(1).trim()
 }).strict();
 

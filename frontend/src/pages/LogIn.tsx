@@ -17,7 +17,7 @@ const children = {
 }
 
 interface FormBody {
-    name: string,
+    email: string,
     password: string
 }
 
@@ -55,12 +55,12 @@ const Login = () => {
                         <h2 className="mt-2 text-sm text-gray-500">Welcome back! Please enter your details</h2>
                         {isError && <p className="text-red-500 text-sm font-semibold flex items-center my-2">{error.message}</p>}
                         <motion.div variants={children} className="mt-8">
-                            <label className="mb-2 block text-sm font-medium text-gray-700" htmlFor="name">Name</label>
-                            <input className="text-gray-700 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" id="name" type="text" placeholder="Enter your name"{...register("name", { required: "Enter your name" })} />
+                            <label className="mb-2 block text-sm font-medium text-gray-700" htmlFor="email">Email</label>
+                            <input className="text-gray-700 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" id="email" type="email" placeholder="Enter your email"{...register("email", { required: "Enter your email" })} />
                         </motion.div>
-                        {errors.name && <span className="text-red-500 text-sm font-semibold flex items-center my-2">
+                        {errors.email && <span className="text-red-500 text-sm font-semibold flex items-center my-2">
                             <CircleAlert className="mr-1" size={15} />
-                            {errors.name.message} </span>}
+                            {errors.email.message} </span>}
                         <motion.div variants={children} className="mt-5">
                             <label className="mb-2 block text-sm font-medium text-gray-700" htmlFor="password">Password</label>
                             <input className="text-gray-700 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" id="password" type="password" placeholder="Enter your password"{...register("password", { required: "Enter your password" })} />
