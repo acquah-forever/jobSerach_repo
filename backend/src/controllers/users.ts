@@ -130,7 +130,7 @@ export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (re
         }
         next(error)
     }
-}
+};
 
 export const logout: RequestHandler = (req, res, next) => {
     req.session.destroy((error) => {
