@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import users from "../models/users"
 import createHttpError from "http-errors";
 import bcrypt from "bcrypt";
-import { usersSchema } from "../validation/users";
+import { loginSchema, usersSchema } from "../validation/users";
 import { ZodError } from "zod";
 
 function userResponse(user: { name: string; email: string }) {
@@ -43,7 +43,7 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
         const validateData = usersSchema.parse(req.body);
         const { name, email, password: passwordRaw } = validateData;
 
-    
+
         const existingUserName = await users.exists({ name: name })
         if (existingUserName) {
             throw createHttpError(409, "Name Already Exists")
@@ -77,8 +77,8 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
         });
     }
     catch (error) {
-        if(error instanceof ZodError) {
-            throw createHttpError(404, "Invalid Data")
+        if (error instanceof ZodError) {
+            throw createHttpError(400, "Invalid Data")
         }
         return next(error)
     }
@@ -93,9 +93,9 @@ interface LogIn {
 export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (req, res, next) => {
 
     try {
-        const validateData = usersSchema.parse(req.body);
+        const validateData = loginSchema.parse(req.body);
 
-        const { name, password:passwordRaw} = validateData
+        const { name, password: passwordRaw } = validateData
 
         const user = await users.findOne({ name }).select("+password +email").exec()
         if (!user) {
@@ -125,8 +125,8 @@ export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (re
         });
     }
     catch (error) {
-        if(error instanceof ZodError) {
-            throw createHttpError(404, "Invalid data")
+        if (error instanceof ZodError) {
+            return next(createHttpError(400, "Invalid data"));
         }
         next(error)
     }
