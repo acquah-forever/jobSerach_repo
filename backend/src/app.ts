@@ -42,25 +42,23 @@ app.use(session({
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
   },
-  rolling: true, // Reset the cookie expiration time on every request
-
-  // where session data will be stored
+  rolling: true,
   store: MongoStore.create({
     mongoUrl: env.MONGO_CONNECTION_STRING,
     collectionName: "sessions",
   }),
 }));
 
-app.use("/api/users", authenticationRouter)
-app.use("/api/jobs", jobsRouter)
-app.use("/api/profile", profileRouter)
-app.use("/api/application", applicationRouter)
-app.use("/api/about", aboutRouter)
+app.use("/api/users", authenticationRouter);
+app.use("/api/jobs", jobsRouter);
+app.use("/api/profile", profileRouter);
+app.use("/api/application", applicationRouter);
+app.use("/api/about", aboutRouter);
 
 
 app.use((req, res, next) => {
   next(createHttpError(404, "Endpoint not found"))
-})
+});
 
 app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
   console.error(error);

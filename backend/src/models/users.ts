@@ -1,7 +1,7 @@
-import { model, InferSchemaType, Schema  } from "mongoose"
+import { model, InferSchemaType, Schema  } from "mongoose";
 
 const userSchema = new Schema({
-    name:{ type: String, required: true, unique:true},
+    name:{ type: String, required: true, select: true },
     email:{ type: String, required: true, select: true,lowercase:true, unique:true},
     password:{ type:String, required: true, select:false },
     profilePicture:{ type:String, default: ""}
@@ -12,4 +12,4 @@ const userSchema = new Schema({
 
 type User = InferSchemaType<typeof userSchema>;
 
-export default model<User>("User", userSchema)
+export default model<User>("User", userSchema);

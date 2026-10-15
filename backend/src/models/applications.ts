@@ -27,6 +27,6 @@ const applicationSchema = new Schema({
     status: { type: String, enum: ["submitted", "reviewing", "accepted", "rejected"], default: "submitted" },
 }, { timestamps: true })
 
-type Application = InferSchemaType<typeof applicationSchema>
+type Application = InferSchemaType<typeof applicationSchema>;
 
-export default model<Application>("Application", applicationSchema)
+export default model<Application>("Application", applicationSchema);
