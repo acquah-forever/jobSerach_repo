@@ -45,9 +45,6 @@ export const getAbout: RequestHandler = async (req, res, next) => {
         res.status(200).json(existingAbout)
     }
         catch (error) {
-            if (error instanceof ZodError) {
-                throw createHttpError(400, "Invalid application data")
-            }
             next(error)
         }
 }
@@ -84,6 +81,9 @@ export const createAbout: RequestHandler<unknown, unknown, AboutData, unknown> =
 
     }
     catch (error) {
+        if (error instanceof ZodError) {
+            throw createHttpError(400, "Invalid Data")
+        }
         next(error)
     }
 }
@@ -120,6 +120,9 @@ export const updateAbout: RequestHandler<{ id: string }, unknown, AboutData, unk
 
     }
     catch (error) {
+        if (error instanceof ZodError) {
+            throw createHttpError(400, "Invalid Data")
+        }
         next(error)
     }
 }
