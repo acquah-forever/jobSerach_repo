@@ -1,9 +1,10 @@
 import { RequestHandler } from "express";
 import users from "../models/users"
 import createHttpError from "http-errors";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
+import { usersSchema } from "../validation/users";
+import { ZodError } from "zod";
 
-/** Return the public account fields that are safe to send to clients. */
 function userResponse(user: { name: string; email: string }) {
     return {
         name: user.name,
@@ -13,22 +14,22 @@ function userResponse(user: { name: string; email: string }) {
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     try {
-        const authenticatedUser = req.session.userId
+        const authenticatedUser = req.session.userId;
 
         if (!authenticatedUser) {
-            throw createHttpError(401, "User not authenticated")
+            throw createHttpError(401, "User not authenticated");
         }
-        const user = await users.findById(authenticatedUser).select("+email").exec()
+        const user = await users.findById(authenticatedUser).select("+email").exec();
         if (!user) {
-            throw createHttpError(404, "User not found")
+            throw createHttpError(404, "User not found");
         }
-        res.status(200).json(userResponse(user))
+        res.status(200).json(userResponse(user));
 
     }
     catch (error) {
         next(error)
     }
-}
+};
 
 interface SignUp {
     name: string
@@ -36,53 +37,28 @@ interface SignUp {
     password: string
 }
 
-/** Create a user account and start an authenticated session. */
 export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (req, res, next) => {
 
     try {
-        const { name, email, password: passwordRaw } = req.body
+        const validateData = usersSchema.parse(req.body);
+        const { name, email, password: passwordRaw } = validateData;
 
-        const typeofString = (typeof name !== "string" || typeof email !== "string" || typeof passwordRaw !== "string")
-
-        if  (typeofString) {
-            throw createHttpError(400, "Invalid Parameters")
-        }
-
-        const nameTrimmed = name.trim()
-        const emailTrimmed = email.trim()
-        const password = passwordRaw
-
-        if (!nameTrimmed || !emailTrimmed || !password) {
-            throw createHttpError(400, "Parameters missing")
-        }
-
-        if (nameTrimmed.length > 50) {
-            throw createHttpError(400, "Name is too long")
-        }
-
-        if (emailTrimmed.length > 254) {
-            throw createHttpError(400, "Email is too long")
-        }
-
-        if (!password || password.length > 128) {
-            throw createHttpError(400, "Password is too long")
-        }
-
-        const existingUserName = await users.exists({ name: nameTrimmed })
+    
+        const existingUserName = await users.exists({ name: name })
         if (existingUserName) {
             throw createHttpError(409, "Name Already Exists")
-        }
+        };
 
-        const existingEmail = await users.exists({ email: emailTrimmed })
+        const existingEmail = await users.exists({ email: email })
         if (existingEmail) {
             throw createHttpError(409, "Email Already Exists")
-        }
+        };
 
-        const passwordHashed = await bcrypt.hash(passwordRaw, 12)
+        const passwordHashed = await bcrypt.hash(passwordRaw, 12);
 
         const newUser = await users.create({
-            name: nameTrimmed,
-            email: emailTrimmed,
+            name,
+            email,
             password: passwordHashed,
         })
 
@@ -101,16 +77,19 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
         });
     }
     catch (error) {
+        if(error instanceof ZodError) {
+            throw createHttpError(404, "Invalid Data")
+        }
         return next(error)
     }
-}
+};
+
 
 interface LogIn {
     name: string
     password: string
 }
 
-/** Authenticate a user and persist their account ID in the session. */
 export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (req, res, next) => {
 
     try {
