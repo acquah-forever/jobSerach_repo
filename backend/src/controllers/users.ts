@@ -72,7 +72,7 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
                 if (error) {
                     return next(error);
                 }
-                res.status(200).json(userResponse(newUser));
+                res.status(201).json(userResponse(newUser));
             });
         });
     }
@@ -93,27 +93,16 @@ interface LogIn {
 export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (req, res, next) => {
 
     try {
-        const { name, password: passwordRaw } = req.body
+        const validateData = usersSchema.parse(req.body);
 
-        const typeofString = (typeof name !== "string" || typeof passwordRaw !== "string")
-        
-        if ( typeofString) {
-            throw (createHttpError(400, "Invalid Parameters"))
-        }
+        const { name, password:passwordRaw} = validateData
 
-        const nameTrimmed = name.trim()
-        const password = passwordRaw
-
-        if (!nameTrimmed || !password) {
-            throw (createHttpError(400, "Parameters missing"))
-        }
-
-        const user = await users.findOne({ name: nameTrimmed }).select("+password +email").exec()
+        const user = await users.findOne({ name }).select("+password +email").exec()
         if (!user) {
             throw (createHttpError(401, "Invalid Credentials"))
         }
 
-        const passwordMatch = await bcrypt.compare(password, user.password)
+        const passwordMatch = await bcrypt.compare(passwordRaw, user.password)
         if (!passwordMatch) {
             throw (createHttpError(401, "Invalid Credentials"))
         }
@@ -136,6 +125,9 @@ export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (re
         });
     }
     catch (error) {
+        if(error instanceof ZodError) {
+            throw createHttpError(404, "Invalid data")
+        }
         next(error)
     }
 }
