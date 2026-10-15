@@ -14,6 +14,6 @@ const profileSchema = new Schema({
     timestamps: true,
 })
 
-type Profile = InferSchemaType<typeof profileSchema>
+type Profile = InferSchemaType<typeof profileSchema>;
 
-export default model<Profile>('Profile', profileSchema)
+export default model<Profile>('Profile', profileSchema);

@@ -6,20 +6,20 @@ import { ZodError } from 'zod'
 import { applicationSchema } from '../validation/application'
 
 
-export const getAuthenticatedProfile: RequestHandler = async (req, res, next) => {
+export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     try {
-        const authenticatedProfile = req.session.userId
+        const authenticatedUser = req.session.userId
 
-        if (!authenticatedProfile) {
+        if (!authenticatedUser  ) {
             throw createHttpError(401, "User not authenticated")
         }
 
-        const existingProfile = await Profile.findOne({ user: authenticatedProfile }).exec()
-        if (!existingProfile) {
+        const existingUser = await Profile.findOne({ user: authenticatedUser }).exec()
+        if (!existingUser) {
             throw createHttpError(404, "Profile not found")
         }
 
-        res.status(200).json(existingProfile)
+        res.status(200).json(existingUser)
     }
     catch (error) {
         next(error)

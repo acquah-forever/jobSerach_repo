@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-
 export const applicationSchema = z.object({
     job: z.string().min(1, "Invalid Parameters"),
     name: z.string().min(1, "Invalid Parameters"),

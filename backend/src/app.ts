@@ -11,9 +11,10 @@ import session from "express-session";
 import env from "./util/validateEnv";
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
+import rateLimit from "express-rate-limit";
 
 
-const app = express()
+const app = express();
 
 app.use(
   cors({
@@ -42,25 +43,32 @@ app.use(session({
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
   },
-  rolling: true, // Reset the cookie expiration time on every request
-
-  // where session data will be stored
+  rolling: true,
   store: MongoStore.create({
     mongoUrl: env.MONGO_CONNECTION_STRING,
     collectionName: "sessions",
   }),
 }));
 
-app.use("/api/users", authenticationRouter)
-app.use("/api/jobs", jobsRouter)
-app.use("/api/profile", profileRouter)
-app.use("/api/application", applicationRouter)
-app.use("/api/about", aboutRouter)
+const limiter = rateLimit({
+  windowMs: 16 * 60 * 1000, 
+  limit: 100, // Maximum 100 requests per IP per window
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+});
+
+app.use(limiter);
+
+app.use("/api/users", authenticationRouter);
+app.use("/api/jobs", jobsRouter);
+app.use("/api/profile", profileRouter);
+app.use("/api/application", applicationRouter);
+app.use("/api/about", aboutRouter);
 
 
 app.use((req, res, next) => {
   next(createHttpError(404, "Endpoint not found"))
-})
+});
 
 app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
   console.error(error);

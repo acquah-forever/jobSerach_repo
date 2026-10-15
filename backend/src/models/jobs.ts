@@ -12,6 +12,6 @@ const jobsSchema = new Schema({
     jobDescription: {type: String, required:true, trim: true} 
 },{timestamps: true})
 
-type Jobs = InferSchemaType<typeof jobsSchema>
+type Jobs = InferSchemaType<typeof jobsSchema>;
 
-export default model <Jobs>("Jobs", jobsSchema) 
+export default model<Jobs>("Jobs", jobsSchema);
