@@ -1,18 +1,18 @@
-import { useState, useMemo, useEffect } from "react"
-import { useForm } from "react-hook-form"
-import { Search, X, ChevronDown, ChevronUp, ArrowLeft } from "lucide-react"
-import { useNavigate } from "react-router-dom"
-import { useAuthenticatedUser } from "../authContext/useAuth"
-import { useJobs, useJob } from "../authContext/useAuth1"
-import { useCreateApplication } from "../authContext/useAuth3"
+import { useState, useMemo, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Search, X, ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useAuthenticatedUser } from "../authContext/useAuth";
+import { useJobs, useJob } from "../authContext/useAuth1";
+import { useCreateApplication } from "../authContext/useAuth3";
 import { ClipLoader } from "react-spinners";
-import { motion, AnimatePresence } from "motion/react"
+import { motion, AnimatePresence } from "motion/react";
 
 interface QueryValue {
   text: string
-}
+};
 
-type SkillLevel = "" | "beginner" | "intermediate" | "advanced" | "expert"
+type SkillLevel = "" | "beginner" | "intermediate" | "advanced" | "expert";
 
 interface ApplicationForm {
 
@@ -38,8 +38,8 @@ interface ApplicationForm {
   confirm1: boolean,
   confirm2: boolean,
 
+};
 
-}
 const resetAll: ApplicationForm = {
 
   name: "",
@@ -63,17 +63,17 @@ const resetAll: ApplicationForm = {
   aiTools: "",
   confirm1: false,
   confirm2: false
-}
+};
 
 const parent = {
   hidden: { opacity: 0, y: -70 },
   visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.25, duration: 0.7 } }
-}
+};
 
 const children = {
   hidden: { opacity: 0, y: -70 },
   visible: { opacity: 1, y: 0 }
-}
+};
 
 const Jobs = () => {
 
@@ -322,6 +322,7 @@ const Jobs = () => {
           <button aria-label="Back to job list" className={`${selectedJob ? "flex" : "hidden"} py-2 px-3 rounded-md mt-3 items-center sm:hidden gap-2 cursor-pointer border`} onClick={handleBack} >
             <ArrowLeft />
           </button>
+
           <div className="max-w-8xl w-full mt-3 sm:border-2 rounded-lg flex">
             <motion.div variants={children} className={`${selectedJob ? "hidden sm:flex" : "flex"} flex-col items-center sm:items-start p-2 sm:p-3 md:p-4 lg:p-5 max-w-md w-full min-h-170`}>
               {paginatedJobs?.length === 0 ?
