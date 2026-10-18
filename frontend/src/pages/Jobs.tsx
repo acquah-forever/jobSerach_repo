@@ -269,7 +269,7 @@ const Jobs = () => {
                     </label>
                     <div className='border w-full border-slate-500/50'></div>
                     <div className='flex  justify-end gap-3'>
-                      <button type="button" className="cursor-pointer" onClick={() => { setEmploymentType("") }}>Reset</button>
+                      <button type="button" className="cursor-pointer" onClick={() => { setEmploymentType(""); setOpen(null) }}>Reset</button>
                       <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full' onClick={() => setOpen(null)}>Show Results</button>
                     </div>
                   </motion.div>
