@@ -189,7 +189,7 @@ const Jobs = () => {
   function onSubmit(data: ApplicationForm) {
 
     if (!selectedJob) {
-      alert("Please select a job before applying")
+      alert("Please select  job before applying")
       return
     }
 
