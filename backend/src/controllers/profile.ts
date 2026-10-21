@@ -143,8 +143,16 @@ export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unkn
 
     catch (error) {
         if (error instanceof ZodError) {
-            throw createHttpError(400, "Invalid data")
+            console.error("Profile validation errors:", error.issues);
+            console.error("Received profile body:", req.body);
+
+            res.status(400).json({
+                error: "Invalid data",
+                details: error.issues,
+            });
+            return;
         }
-        next(error)
+
+        next(error);
     }
 }

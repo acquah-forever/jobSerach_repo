@@ -208,7 +208,7 @@ const Jobs = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <ClipLoader size={70} color="#123abc" />
+        <ClipLoader size={67} color="#123abc" />
       </div>
     )
   }
@@ -278,8 +278,6 @@ const Jobs = () => {
               </AnimatePresence>
 
             </div>
-
-
             <button className="cursor-pointer flex items-center gap-3 border rounded-sm px-3 py-1 hover:bg-slate-500/50" onClick={() => handleClick(2)}>
               <h1 className="font-semibold text-xs sm:text-sm md:text-md">Experience Level</h1>
               {open === 2 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
