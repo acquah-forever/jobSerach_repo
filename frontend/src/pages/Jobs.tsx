@@ -208,7 +208,7 @@ const Jobs = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <ClipLoader size={70} color="#123abc" />
+        <ClipLoader size={67} color="#123abc" />
       </div>
     )
   }
