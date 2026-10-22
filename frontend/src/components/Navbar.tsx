@@ -62,7 +62,9 @@ const Navbar = () => {
                             <span className="cursor-pointer">{user.name.slice(0, 2).toUpperCase()}</span>
                         </button>
                     ): (
-                    <NavLink className='bg-amber-500 p-2 rounded-md' to='/login'>Login</NavLink>
+                    <NavLink className=' p-1 rounded-md' to='/login'>
+                        <button className="btn">Login</button>
+                    </NavLink>
                     )}
                 </div>
                         {open === 0 && <ProfileCard onClose={() => setOpen(null)} />}
