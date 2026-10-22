@@ -1,7 +1,8 @@
 import { useState } from "react";
+import ProfileCard from "./ProfileCard";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useLogout, useAuthenticatedUser } from "../authContext/useAuth";
-import { ChevronDown, House, TableOfContents, Handshake, Menu, X, UserRoundArrowLeft } from 'lucide-react'
+import { Ellipsis, House, TableOfContents, Handshake, Menu, X, UserRoundArrowLeft, BriefcaseConveyorBelt, Bell } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 
 const Navbar = () => {
@@ -16,13 +17,10 @@ const Navbar = () => {
         visible: { opacity: 1, y: 0 }
     }
 
+    const [open, setOpen] = useState<null | number>(null);
     const { mutate } = useLogout();
     const { data: user, isLoading } = useAuthenticatedUser();
     const navigate = useNavigate();
-
-    const [open, setOpen] = useState<boolean>(false);
-    const [menu, setMenu] = useState<boolean>(false);
-
 
     function handleClick() {
         mutate(undefined, {
@@ -32,64 +30,55 @@ const Navbar = () => {
         });
     }
 
-    const toggle = (prev: boolean) => !prev;
-
-    function handleOpen() {
-        setOpen(toggle)
-    };
-
-    function handleMenu() {
-        setMenu(toggle)
-    };
-
-    function handleClose() {
-        setMenu(false)
-    };
+    function handleOpen(index: number) {
+        setOpen((prev) => prev === index ? null : index)
+    }
 
 
     return (
         <header className="sticky top-0 z-50">
-            <nav className=" flex items-center justify-between px-5 py-1 sm:px-10  lg:px-15 bg-white/10 backdrop-blur-xl border-b border-white/20">
+            <nav className=" flex items-center justify-between px-5 py-1.5 sm:px-10  lg:px-15 bg-white/10 backdrop-blur-xl border-b border-white/20">
                 <NavLink to="/" className="cursor-pointer text-lg flex items-center gap-2">
-                    <House aria-label="Home" className="cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" size={33} />
+                    <House aria-label="Home" className="cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" size={28} />
                     <h1>TechJob Finder</h1>
                 </NavLink>
-                <ul className="space-x-5 hidden md:flex">
-                    <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">About</li>
-                    <NavLink to="/jobs" className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">Jobs</NavLink>
-                    <button type="button" className="text-md cursor-pointer gap-0.5 flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" onClick={handleOpen}>
-                        More
-                        <ChevronDown className="mt-1" size={18} />
+                <ul className="space-x-5 hidden sm:flex">
+                    <NavLink to="/jobs" className="text-md cursor-pointer flex flex-col justify-center items-center transition-all hover:text-slate-200 hover:underline duration-200">
+                        <BriefcaseConveyorBelt size={22} />
+                        <h1 className="text-sm">Jobs</h1>
+                    </NavLink>
+                    <button type="button" aria-label="notifications" className="cursor-pointer flex flex-col justify-center items-center hover:text-slate-200 hover:underline duration-200">
+                        <Bell size={20} />
+                        <h1 className='text-sm'>Notifications</h1>
+                    </button>
+                    <button type="button" className="text-md cursor-pointer flex flex-col justify-center items-center transition-all hover:text-slate-200 hover:underline duration-200" onClick={() => handleOpen(1)}>
+                        <Ellipsis size={20} />
+                        <h1 className="text-sm">More</h1>
                     </button>
                 </ul>
-                <div className="flex justify-center items-center ">
-                    {
-                        !isLoading && user ? (
-                            <div className="border rounded-lg hidden md:flex gap-2 px-4 py-2 items-center">
-                                <NavLink to="/profile" className="cursor-pointer transition-all hover:scale-107 hover:underline duration-300 bg-linear-to-tr from-slate-100 to-cyan-400 text-transparent bg-clip-text">{user.name}</NavLink>
-                                <div>|</div>
-                                <button type="button" className="cursor-pointer transition-all hover:scale-107 hover:underline duration-300" onClick={handleClick}>Log Out</button>
-                            </div>
-                        ) : (
-                            <NavLink className="hidden md:flex justify-center items-center gap-2 px-5 py-2 rounded-sm border-2 border-white cursor-pointer transition-all hover:scale-110 hover:underline duration-300" to="/login">
-                                <UserRoundArrowLeft className="border bg-gray-500 rounded-full px-1" size={28} />
-                                Log In
-                            </NavLink>
-                        )
-                    }
+                <div className="hidden sm:flex justify-center items-center ">
+                    {!isLoading && user ? (
+                        <button className=' items-center justify-center border border-white w-8 h-8 rounded-full bg-slate-700 hidden sm:flex' onClick={() => handleOpen(0)}>
+                            <span className="cursor-pointer">{user.name.slice(0, 2).toUpperCase()}</span>
+                        </button>
+                    ): (
+                    <NavLink className='bg-amber-500 p-2 rounded-md' to='/login'>Login</NavLink>
+                    )}
                 </div>
-                <motion.button type="button" variants={children} whileHover={{ scale: 1.25 }} className="cursor-pointer flex md:hidden" onClick={handleMenu}>
-                    {menu ? (<X size={22} />) : (<Menu size={22} />)}
+                        {open === 0 && <ProfileCard onClose={() => setOpen(null)} />}
+
+                <motion.button type="button" variants={children} className="cursor-pointer flex sm:hidden" onClick={() => handleOpen(2)}>
+                    {open === 2 ? (<X size={20} />) : (<Menu size={20} />)}
                 </motion.button>
             </nav>
 
             <AnimatePresence>
                 {
-                    menu && (
+                    open === 2 && (
                         <motion.nav className=" px-10 py-3 mx-10" variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }}>
                             <ul className="flex flex-col space-y-2 justify-start md:hidden">
-                                <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" onClick={handleClose}>About</li>
-                                <NavLink to="/jobs" className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" onClick={handleClose}>Jobs</NavLink>
+                                <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:underline duration-200" onClick={() => handleOpen(null)}>About</li>
+                                <NavLink to="/jobs" className="text-md cursor-pointer flex justify-center items-center transition-all hover:underline duration-200" onClick={() => handleOpen(null)}>Jobs</NavLink>
                                 {
                                     !isLoading && user ?
                                         <div className="rounded-lg flex md:hidden gap-2 p-2 justify-center items-center">
@@ -118,7 +107,7 @@ const Navbar = () => {
                                 <div className='mt-3 flex space-x-4'>
                                     <House aria-label="House" size={20} />
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                        <NavLink to="/blog" className='text-sm font-semibold underline'onClick={() => setOpen(null)} >Blog</NavLink>
+                                        <NavLink to="/blog" className='text-sm font-semibold underline' onClick={() => setOpen(null)} >Blog</NavLink>
                                         <h2 className='text-sm'>Read Industry Insights.</h2>
                                     </motion.div>
                                 </div>
@@ -126,7 +115,7 @@ const Navbar = () => {
                                 <div className='mt-2 flex space-x-4'>
                                     <TableOfContents aria-label="Table of Contents" size={20} />
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                        <a href='/#faq' className='text-sm font-semibold underline'onClick={() => setOpen(null)} >FAQ</a>
+                                        <a href='/#faq' className='text-sm font-semibold underline' onClick={() => setOpen(null)} >FAQ</a>
                                         <h2 className='text-sm'>Common Questions Asked.</h2>
                                     </motion.div>
                                 </div>
@@ -134,7 +123,7 @@ const Navbar = () => {
                                 <div className='mt-2 flex space-x-4'>
                                     <Handshake aria-label="Handshake" />
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                        <a href='/#support' className='text-sm font-semibold underline'onClick={() => setOpen(null)} >Support</a>
+                                        <a href='/#support' className='text-sm font-semibold underline' onClick={() => setOpen(null)} >Support</a>
                                         <h2 className='text-sm'>We are here to help.</h2>
                                     </motion.div>
                                 </div>
@@ -149,7 +138,7 @@ const Navbar = () => {
                                         <h1 className='text-sm font-semibold'>Finding Your Next Role</h1>
                                         <h2 className='text-sm'>Tips for landing positions.</h2>
                                         <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                            <NavLink to='/insights' className='text-sm underline'onClick={() => setOpen(null)} >Read More</NavLink>
+                                            <NavLink to='/insights' className='text-sm underline' onClick={() => setOpen(null)} >Read More</NavLink>
                                         </motion.div>
                                     </div>
                                 </div>
