@@ -1,4 +1,6 @@
 import { useLogout, useAuthenticatedUser } from "../authContext/useAuth";
+import { useRef } from 'react';
+import { useOnClickOutside } from "usehooks-ts";
 import { NavLink, useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
 
@@ -10,6 +12,9 @@ const ProfileCard = ({onClose}:ProfileCardProps) => {
     const { data: user, isLoading } = useAuthenticatedUser();
     const { mutate: logOut } = useLogout();
     const navigate = useNavigate();
+
+    const cardRef = useRef<HTMLDivElement>(null);
+     useOnClickOutside(cardRef, onClose);
 
 
     function handleLogout() {
@@ -25,7 +30,7 @@ const ProfileCard = ({onClose}:ProfileCardProps) => {
 
     return (
         <div className='hidden absolute top-12 right-0 sm:flex justify-end text-black px-3 py-4'>
-            <div className="card bg-base-100 w-60 p-3">
+            <div ref={cardRef} className="card bg-base-100 w-60 p-3">
                 <div>
                     <div className="flex justify-end">
                         <button type='button' aria-label='Close account menu' onClick={onClose}> <X className='cursor-pointer' size={20} /></button>
