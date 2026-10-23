@@ -1,5 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useRef } from 'react';
+import { useOnClickOutside } from "usehooks-ts";
 import { Search, X, ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticatedUser } from "../authContext/useAuth";
@@ -85,13 +87,15 @@ const Jobs = () => {
   const { register, watch, reset } = useForm<QueryValue>()
   const { register: registerApply, handleSubmit: handleApplySubmit, formState: { errors: applyErrors }, reset: resetApply } = useForm<ApplicationForm>()
   const query = watch("text", "")
-  const [open, setOpen] = useState<number | null>(null)
-  const [page, setPage] = useState<number>(1)
-  const [employmentType, setEmploymentType] = useState<string>("")
-  const [experienceLevel, setExperienceLevel] = useState<string>("")
+  const [open, setOpen] = useState<number | null>(null);
+  const [page, setPage] = useState<number>(1);
+  const [employmentType, setEmploymentType] = useState<string>("");
+  const [experienceLevel, setExperienceLevel] = useState<string>("");
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
-  const navigate = useNavigate()
-  const jobsPerPage = 5
+  const navigate = useNavigate();
+  const jobsPerPage = 5;
+  const cardRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(cardRef,() => setOpen(null) );
 
   function handleClick(index: number) {
     setOpen((prev) => prev === index ? null : index)
@@ -217,7 +221,7 @@ const Jobs = () => {
   if (isError) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen">
-        <h1 className="text-2xl">404</h1>
+        <span className="text-8xl">😔</span>
         <p className="text-2xl">{error.message}</p>
         <button className="cursor-pointer mt-4 bg-blue-500 text-white py-2 px-4 rounded" onClick={handleHome}>Back Home</button>
       </div>
@@ -246,7 +250,7 @@ const Jobs = () => {
               <AnimatePresence>
                 {open === 1 &&
 
-                  <motion.div variants={children} className='max-w-sm w-full absolute left-0 sm:left-12 top-41 p-5 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
+                  <motion.div ref={cardRef} variants={children} className='max-w-sm w-full absolute left-0 sm:left-12 top-41 p-5 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
                     <label className="flex items-center gap-1">
                       <input type="radio" name='employment' value="Part-time"
                         checked={employmentType === "Part-time"} onChange={handleEmploymentType} />
@@ -285,7 +289,7 @@ const Jobs = () => {
             <div>
               <AnimatePresence>
                 {open === 2 &&
-                  <motion.div variants={children} className='max-w-sm w-full absolute left-0 sm:left-12 top-39 p-5 mt-2 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
+                  <motion.div ref={cardRef} variants={children} className='max-w-sm w-full absolute left-0 sm:left-12 top-39 p-5 mt-2 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
                     <label className="flex items-center gap-1">
                       <input type="radio" name='experience' value="entry-level"
                         checked={experienceLevel === "entry-level"} onChange={handleExperienceLevel} />
@@ -317,8 +321,8 @@ const Jobs = () => {
             </div>
 
           </motion.div>
-          <button aria-label="Back to job list" className={`${selectedJob ? "flex" : "hidden"} py-2 px-3 rounded-md mt-3 items-center sm:hidden gap-2 cursor-pointer border`} onClick={handleBack} >
-            <ArrowLeft />
+          <button aria-label="Back to job list" className={`${selectedJob ? "flex" : "hidden"} py-1 px-3  items-center sm:hidden gap-2 cursor-pointer`} onClick={handleBack} >
+            <ArrowLeft size={25} />
           </button>
 
           <div className="max-w-8xl w-full mt-3 sm:border-2 rounded-lg flex">
@@ -350,10 +354,10 @@ const Jobs = () => {
 
             {selectedJob &&
               <div>
-                {isJobLoading && <div className="m-30 sm:m-40 md:m-50 lg:m-90 flex justify-center items-center"><ClipLoader size={50} color="#123abc" /></div>}
-                <motion.div variants={children} className="bg-white/60 rounded-lg p-2 sm:p-3 md:p-4 lg:p-5 text-black min-h-210 mt-4 mb-4">
+                {isJobLoading && <div className="absolute inset-0 z-10 flex items-center justify-center rounded-lg" aria-label="Loading"><ClipLoader size={50} color="#123abc" /></div>}
+                <motion.div variants={children} className="bg-white/60 rounded-lg p-2 sm:p-3 md:p-4 lg:p-5 text-black min-h-210 mt-4 mb-4 mx-">
                   <div className='mb-5'>
-                    <img className='w-full h-77 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/09/18/16/40/business-9056542_1280.jpg"} alt="job?_imageUrl" />
+                    <img className='w-full h-107 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/04/05/05/17/business-8676529_1280.jpg"} alt="job?_imageUrl" />
                   </div>
                   <h1 className="text-2xl font-semibold mb-3">
                     {job?.jobTitle}

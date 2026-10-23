@@ -4,16 +4,18 @@ import { CircleAlert } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useLogin } from "../authContext/useAuth";
 import { motion } from "motion/react"
+import { ClipLoader } from "react-spinners";
+
 
 
 const parent = {
-  hidden: { opacity: 0, y: -70 },
-  visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.25, duration: 0.7 } }
+    hidden: { opacity: 0, y: -70 },
+    visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.25, duration: 0.7 } }
 }
 
 const children = {
-  hidden: { opacity: 0, y: -70 },
-  visible: { opacity: 1, y: 0 }
+    hidden: { opacity: 0, y: -70 },
+    visible: { opacity: 1, y: 0 }
 }
 
 interface FormBody {
@@ -71,7 +73,10 @@ const Login = () => {
                         <div className="mt-3 flex justify-end">
                             <button className="cursor-pointer text-sm font-medium text-blue-600 hover:text-blue-700" type="button">Forgot your password?</button>
                         </div>
-                        <motion.button variants={children} className="cursor-pointer mt-6 w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transitionhover:bg-blue-700 active:scale-[0.99]" type="submit" disabled={isPending}>{isPending ? "Logging in" : "Login"}</motion.button>
+                        <motion.button variants={children} className="cursor-pointer mt-6 w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transitionhover:bg-blue-700 active:scale-[0.99]" type="submit" disabled={isPending}>{isPending ? <div className="flex justify-center items-center">
+                            <ClipLoader size={25} color="white" />
+                        </div>
+                            : "Login"}</motion.button>
                         <p className="mt-6 text-center text-sm text-gray-600">
                             Don't have an account?{" "}
                             <NavLink to="/signup" className="cursor-pointer font-semibold text-blue-600 hover:text-blue-700" type="button">Sign Up</NavLink>

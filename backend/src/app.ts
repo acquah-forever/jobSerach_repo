@@ -7,18 +7,19 @@ import jobsRouter from "./routes/jobs"
 import profileRouter from "./routes/profile"
 import applicationRouter from "./routes/application"
 import aboutRouter from "./routes/about"
+import blogRouter from "./routes/blog"
 import session from "express-session";
 import env from "./util/validateEnv";
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
-import rateLimit from "express-rate-limit";
+
 
 
 const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5175",
     credentials: true,
   })
 );
@@ -50,20 +51,15 @@ app.use(session({
   }),
 }));
 
-const limiter = rateLimit({
-  windowMs: 16 * 60 * 1000, 
-  limit: 100, // Maximum 100 requests per IP per window
-  standardHeaders: "draft-8",
-  legacyHeaders: false,
-});
 
-app.use(limiter);
 
 app.use("/api/users", authenticationRouter);
 app.use("/api/jobs", jobsRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/application", applicationRouter);
 app.use("/api/about", aboutRouter);
+app.use("/api/blog", blogRouter);
+
 
 
 app.use((req, res, next) => {
