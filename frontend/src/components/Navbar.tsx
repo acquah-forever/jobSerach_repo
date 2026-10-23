@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useRef } from 'react';
+import { useOnClickOutside } from "usehooks-ts";
 import ProfileCard from "./ProfileCard";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useLogout, useAuthenticatedUser } from "../authContext/useAuth";
@@ -21,6 +23,8 @@ const Navbar = () => {
     const { mutate } = useLogout();
     const { data: user, isLoading } = useAuthenticatedUser();
     const navigate = useNavigate();
+    const moreRef = useRef<HTMLDivElement>(null);
+    useOnClickOutside(moreRef, () => setOpen(null))
 
     function handleClick() {
         mutate(undefined, {
@@ -30,7 +34,7 @@ const Navbar = () => {
         });
     }
 
-    function handleOpen(index: number) {
+    function handleOpen(index: number | null) {
         setOpen((prev) => prev === index ? null : index)
     }
 
@@ -61,13 +65,13 @@ const Navbar = () => {
                         <button className=' items-center justify-center border border-white w-8 h-8 rounded-full bg-slate-700 hidden sm:flex' onClick={() => handleOpen(0)}>
                             <span className="cursor-pointer">{user.name.slice(0, 2).toUpperCase()}</span>
                         </button>
-                    ): (
-                    <NavLink className=' p-1 rounded-md' to='/login'>
-                        <button className="btn">Login</button>
-                    </NavLink>
+                    ) : (
+                        <NavLink className=' p-1 rounded-md' to='/login'>
+                            <button className="btn">Login</button>
+                        </NavLink>
                     )}
                 </div>
-                        {open === 0 && <ProfileCard onClose={() => setOpen(null)} />}
+                {open === 0 && <ProfileCard onClose={() => setOpen(null)} />}
 
                 <motion.button type="button" variants={children} className="cursor-pointer flex sm:hidden" onClick={() => handleOpen(2)}>
                     {open === 2 ? (<X size={20} />) : (<Menu size={20} />)}
@@ -77,7 +81,7 @@ const Navbar = () => {
             <AnimatePresence>
                 {
                     open === 2 && (
-                        <motion.nav className=" px-10 py-3 mx-10" variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }}>
+                        <motion.nav className=" px-10 py-3 bg-white/10 backdrop-blur-md" variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }}>
                             <ul className="flex flex-col space-y-2 justify-start md:hidden">
                                 <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:underline duration-200" onClick={() => handleOpen(null)}>About</li>
                                 <NavLink to="/jobs" className="text-md cursor-pointer flex justify-center items-center transition-all hover:underline duration-200" onClick={() => handleOpen(null)}>Jobs</NavLink>
@@ -86,7 +90,7 @@ const Navbar = () => {
                                         <div className="rounded-lg flex md:hidden gap-2 p-2 justify-center items-center">
                                             <NavLink to="/profile" className="cursor-pointer transition-all hover:scale-107 hover:underline duration-300 bg-linear-to-tr from-slate-100 to-cyan-400 text-transparent bg-clip-text text-md">{user.name}</NavLink>
                                             <div className="text-3xl text-emerald-500">|</div>
-                                            <button type="button" className="text-md transition-all hover:scale-107 hover:underline duration-300 cursor-pointer border px-2 py-1" onClick={handleClick}>Log Out</button>
+                                            <button type="button" className="text-md transition-all hover:scale-107 hover:underline duration-300 cursor-pointer px-2 py-1" onClick={handleClick}>Log Out</button>
                                         </div>
                                         :
                                         <NavLink className="flex md:hidden justify-center items-center gap-2 px-5 py-2cursor-pointer transition-all hover:scale-110 hover:underline duration-300" to="/login">
@@ -102,7 +106,7 @@ const Navbar = () => {
 
             <AnimatePresence>
                 {open && (
-                    <motion.nav variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }} className='absolute top-15 left-0 w-full bg-white/10 backdrop-blur-md border-b border-white/20 shadow-lg shadow-black/10'>
+                    <motion.nav ref={moreRef} variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }} className='absolute top-15 left-0 w-full bg-white/10 backdrop-blur-md  shadow-lg shadow-black/10'>
                         <section className='px-5 hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 justify-items-center mt-10 mb-10'>
                             <motion.div variants={children} className='space-y-4 mb-7'>
                                 <h2 className='text-md font-bold tracking-tighter' >Resources</h2>
