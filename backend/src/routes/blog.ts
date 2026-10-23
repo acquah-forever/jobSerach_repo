@@ -3,6 +3,6 @@ import { getBlog } from '../controllers/blog';
 
 const router = express.Router();
 
-router.get{"/", getBlog};
+router.get("/", getBlog)
 
-export default router
+export default router;
