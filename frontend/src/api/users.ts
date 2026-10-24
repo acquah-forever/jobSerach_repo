@@ -25,7 +25,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error((data as ApiError).error || "Failed to fetch data. Please try again later");
+        throw new Error((data as ApiError).error || "Request Failed. Please try again later");
     }
 
     return data;
