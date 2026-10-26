@@ -1,9 +1,15 @@
 import { model, InferSchemaType, Schema } from 'mongoose';
 
 const blogSchema = new Schema({
+    section: {type: String, required: true, trim:true},
     title: {type: String, required: true, trim:true},
-    body: {type: String, required: true, trim:true},
-    comment: {type: String, required: true, trim:true}
+    blurb: {type: String, required: true, trim:true},
+    body1: {type: String, required: true, trim:true},
+    body2: {type: String, required: true, trim:true},
+    body3: {type: String, required: true, trim:true},
+    body4: {type: String, required: true, trim:true},
+    body5: {type: String, required: true, trim:true},
+    body6: {type: String, required: true, trim:true},
 },{timestamps:true});
 
 type Blog = InferSchemaType<typeof blogSchema>;
