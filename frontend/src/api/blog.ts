@@ -3,6 +3,7 @@ if (!API_URL) throw new Error("VITE_API_URL is not set");
 
 export interface Blog {
     _id: string,
+    imageUrl: string,
     section: string,
     title: string,
     blurb: string,
