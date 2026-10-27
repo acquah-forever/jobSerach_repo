@@ -1,12 +1,24 @@
-import { useBlogs } from '../authContext/useAuth5'
+import { useState } from 'react'
+import { useBlogs, useBlog } from '../authContext/useAuth5'
+import { X } from 'lucide-react'
 
 const Blog = () => {
+  const [selectedBlog, setSelectedJob] = useState<string | null>(null)
   const { data: blogs, isLoading } = useBlogs()
+  const { data: blog } = useBlog(selectedBlog)
+
+  function handleClick(blogId: string) {
+    setSelectedJob(blogId)
+  }
+
+  function handleClose() {
+    setSelectedJob(null)
+
+  }
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8">
       <div className="mx-auto mt-12 grid w-full max-w-7xl grid-cols-1 justify-items-center gap-6 sm:grid-cols-2 xl:grid-cols-3">
-
         {!isLoading &&
           blogs?.length > 0 &&
           blogs.map((item) => (
@@ -14,14 +26,30 @@ const Blog = () => {
               <div className="card-body">
                 <span>{item.section}</span>
                 <h2 className="break-words text-base font-semibold sm:text-lg md:text-xl">{item.title}</h2>
-                <p className="break-words text-sm sm:text-base">{item.blurb}</p>
+                <p className="text-sm sm:text-base text-wrap">{item.blurb}</p>
                 <div className="mt-6 flex justify-start">
-                  <button className="btn btn-soft btn-secondary">Read More</button>
+                  <button className="btn btn-soft btn-secondary" onClick={() => handleClick(item._id)}>Read More</button>
                 </div>
               </div>
             </div>
           ))}
       </div>
+
+      {selectedBlog && (
+        <div className="border fixed inset-0 z-50 flex justify-center items-start overflow-y-scroll bg-black/50 p-4 text-black sm:items-center sm:p-8 px-10">
+          <div className='p-5 my-auto w-full max-w-6xl min-h-screen rounded-lg bg-white'>
+            <div className='flex justify-between'>
+              <h1>{blog?.title}</h1>
+              <button type="button" aria-label="Close Blog" onClick={handleClose}>
+                <X className="cursor-pointer" size={22} />
+              </button>
+            </div>
+          </div>
+
+
+        </div>
+
+      )}
     </div>
   )
 }
