@@ -1,6 +1,7 @@
 import { model, InferSchemaType, Schema } from 'mongoose';
 
 const blogSchema = new Schema({
+    imageUrl: {type: String, required: true},
     section: {type: String, required: true, trim:true},
     title: {type: String, required: true, trim:true},
     blurb: {type: String, required: true, trim:true},

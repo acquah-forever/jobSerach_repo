@@ -4,6 +4,6 @@ import { getBlogs, getBlog } from '../controllers/blog';
 const router = express.Router();
 
 router.get("/", getBlogs)
-router.get("/", getBlog)
+router.get("/:id", getBlog)
 
 export default router;
