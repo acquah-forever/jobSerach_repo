@@ -10,6 +10,8 @@ import { useCreateApplication } from "../authContext/useAuth3";
 import { ClipLoader } from "react-spinners";
 import { motion, AnimatePresence } from "motion/react";
 
+
+
 interface QueryValue {
   text: string
 };
@@ -96,6 +98,10 @@ const Jobs = () => {
   const jobsPerPage = 5;
   const cardRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(cardRef,() => setOpen(null) );
+  const appRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(appRef,() => setOpen(null) );
+
+
 
   function handleClick(index: number) {
     setOpen((prev) => prev === index ? null : index)
@@ -380,8 +386,8 @@ const Jobs = () => {
             }
 
             {open === 3 &&
-              <div className="fixed inset-0 z-50 flex border items-start justify-center overflow-y-scroll bg-black/40 p-4 text-black sm:items-center sm:p-8 px-10">
-                <motion.form variants={children} className="bg-white/10 backdrop-blur-2xl text-white p-4 my-auto w-full max-w-4xl min-h-screen rounded-lg bg-white" onSubmit={handleApplySubmit(onSubmit)}>
+              <div className="fixed inset-0 z-50 flex border items-start justify-center overflow-y-scroll bg-black/40 p-4  sm:items-center sm:p-8 px-10 ">
+                <motion.form ref={appRef} variants={children} className="bg-white/10 backdrop-blur-2xl text-white p-4 my-auto w-full min-h-screen max-w-4xl rounded-lg " onSubmit={handleApplySubmit(onSubmit)}>
                   <div className="flex justify-between mb-2">
                     <h1 className="text-lg sm:text-2xl md:text-3xl">Apply for {job?.jobTitle}</h1>
                     <button type="button" aria-label="Close job application" onClick={handleClose}>
