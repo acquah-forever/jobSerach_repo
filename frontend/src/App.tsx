@@ -13,7 +13,7 @@ import { Routes, Route } from "react-router-dom"
 const App = () => {
   return (
     <div className="relative flex min-h-screen flex-col text-white bg-[url('https://cdn.pixabay.com/photo/2017/11/27/21/31/computer-2982270_1280.jpg')] bg-cover bg-center bg-no-repeat bg-scroll sm:bg-fixed">
-      <div aria-hidden="true" className="absolute inset-0 z-0 bg-black/50" />
+      <div aria-hidden="true" className="absolute inset-0 z-0 bg-black/40" />
       <div className='relative z-10 flex flex-1 flex-col min-h-screen'>
         <Navbar />
         <main className='flex-1'>

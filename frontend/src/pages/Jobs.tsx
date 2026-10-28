@@ -332,9 +332,9 @@ const Jobs = () => {
                 :
                 (
                   paginatedJobs?.map((item) => (
-                    <button key={item._id} className="cursor-pointer text-start bg-white/75  p-3 rounded-lg mb-4 hover:scale-105 duration-180 w-75 sm:w-70 md:w-80 lg-100" type="button" onClick={() => handleSelect(item._id)}>
+                    <button key={item._id} className="bg-white/10 backdrop-blur-2xl cursor-pointer text-start p-3 rounded-lg mb-4 hover:scale-105 duration-180 w-75 sm:w-70 md:w-80 lg-100 " type="button" onClick={() => handleSelect(item._id)}>
                       <img className=" h-15 w-15 object-cover rounded-full" src={item.imageUrl} alt="company logo" />
-                      <h1 className="text-lg sm:text-xl text-sky-800">{item.jobTitle}</h1>
+                      <h1 className="text-lg sm:text-xl text-sky-400">{item.jobTitle}</h1>
                       <p className="text-sm text-black">{item.company}</p>
                       <p className="text-sm text-black">{item.jobLocation}</p>
                     </button>
@@ -354,8 +354,8 @@ const Jobs = () => {
 
             {selectedJob &&
               <div>
-                {isJobLoading && <div className="absolute inset-0 z-10 flex items-center justify-center rounded-lg" aria-label="Loading"><ClipLoader size={50} color="#123abc" /></div>}
-                <motion.div variants={children} className="bg-white/60 rounded-lg p-2 sm:p-3 md:p-4 lg:p-5 text-black min-h-210 mt-4 mb-4 mx-">
+                {isJobLoading && <div className=" absolute inset-0 z-10 flex items-center justify-center rounded-lg" aria-label="Loading"><ClipLoader size={50} color="#123abc" /></div>}
+                <motion.div variants={children} className="bg-white/10 backdrop-blur-2xl rounded-lg p-2 sm:p-3 md:p-4 lg:p-5 text-black min-h-210 mt-4 mb-4 mx-">
                   <div className='mb-5'>
                     <img className='w-full h-107 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/04/05/05/17/business-8676529_1280.jpg"} alt="job?_imageUrl" />
                   </div>
