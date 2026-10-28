@@ -10,6 +10,8 @@ import { useCreateApplication } from "../authContext/useAuth3";
 import { ClipLoader } from "react-spinners";
 import { motion, AnimatePresence } from "motion/react";
 
+
+
 interface QueryValue {
   text: string
 };
@@ -96,6 +98,10 @@ const Jobs = () => {
   const jobsPerPage = 5;
   const cardRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(cardRef,() => setOpen(null) );
+  const appRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(appRef,() => setOpen(null) );
+
+
 
   function handleClick(index: number) {
     setOpen((prev) => prev === index ? null : index)
@@ -325,18 +331,18 @@ const Jobs = () => {
             <ArrowLeft size={25} />
           </button>
 
-          <div className="max-w-8xl w-full mt-3 sm:border-2 rounded-lg flex">
+          <div className="max-w-8xl w-full mt-3  flex">
             <motion.div variants={children} className={`${selectedJob ? "hidden sm:flex" : "flex"} flex-col items-center sm:items-start p-2 sm:p-3 md:p-4 lg:p-5 max-w-md w-full min-h-170`}>
               {paginatedJobs?.length === 0 ?
                 (<p>Jobs not found</p>)
                 :
                 (
                   paginatedJobs?.map((item) => (
-                    <button key={item._id} className="cursor-pointer text-start bg-white/75  p-3 rounded-lg mb-4 hover:scale-105 duration-180 w-75 sm:w-70 md:w-80 lg-100" type="button" onClick={() => handleSelect(item._id)}>
+                    <button key={item._id} className="bg-white/10 backdrop-blur-2xl cursor-pointer text-start p-3 rounded-lg mb-4 hover:scale-105 duration-180 w-75 sm:w-70 md:w-80 lg-100 " type="button" onClick={() => handleSelect(item._id)}>
                       <img className=" h-15 w-15 object-cover rounded-full" src={item.imageUrl} alt="company logo" />
-                      <h1 className="text-lg sm:text-xl text-sky-800">{item.jobTitle}</h1>
-                      <p className="text-sm text-black">{item.company}</p>
-                      <p className="text-sm text-black">{item.jobLocation}</p>
+                      <h1 className="text-lg sm:text-xl text-sky-200">{item.jobTitle}</h1>
+                      <p className="text-sm text-black text-white">{item.company}</p>
+                      <p className="text-sm text-white">{item.jobLocation}</p>
                     </button>
                   ))
                 )}
@@ -354,65 +360,65 @@ const Jobs = () => {
 
             {selectedJob &&
               <div>
-                {isJobLoading && <div className="absolute inset-0 z-10 flex items-center justify-center rounded-lg" aria-label="Loading"><ClipLoader size={50} color="#123abc" /></div>}
-                <motion.div variants={children} className="bg-white/60 rounded-lg p-2 sm:p-3 md:p-4 lg:p-5 text-black min-h-210 mt-4 mb-4 mx-">
+                {isJobLoading && <div className=" absolute inset-0 z-10 flex items-center justify-center rounded-lg" aria-label="Loading"><ClipLoader size={50} color="#123abc" /></div>}
+                <motion.div variants={children} className="bg-white/10 backdrop-blur-2xl rounded-lg p-2 sm:p-3 md:p-4 lg:p-5 text-black min-h-210 mt-4 mb-4 mx-">
                   <div className='mb-5'>
                     <img className='w-full h-107 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/04/05/05/17/business-8676529_1280.jpg"} alt="job?_imageUrl" />
                   </div>
-                  <h1 className="text-2xl font-semibold mb-3">
+                  <h1 className="text-2xl font-semibold mb-3 text-sky-200">
                     {job?.jobTitle}
                   </h1>
-                  <p>{job?.company}</p>
-                  <p>{job?.jobLocation}</p>
+                  <p className='text-white'>{job?.company}</p>
+                  <p className='text-white'>{job?.jobLocation}</p>
 
                   <div className="flex space-x-2 items-center mt-2 mb-2">
-                    <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.employmentType}</span>
-                    <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.experienceLevel}</span>
+                    <span className="border px-4 py-1 rounded-full font-semibold text-sm text-white">{job?.employmentType}</span>
+                    <span className="border px-4 py-1 rounded-full font-semibold text-sm text-white">{job?.experienceLevel}</span>
                   </div>
                   <button className="mb-4 border cursor-pointer rounded-full px-4 py-1 bg-sky-600 text-white" onClick={handleApply}>Apply</button>
-                  <h1 className="font-semibold underline">Requirements</h1>
-                  <motion.p variants={children} className="text-sm">{job?.requirements}</motion.p>
-                  <h1 className="font-semibold mt-4 underline">About This Job</h1>
-                  <motion.p variants={children} className="text-sm">{job?.jobDescription}</motion.p>
+                  <h1 className="font-semibold underline text-white">Requirements</h1>
+                  <motion.p variants={children} className="text-sm text-white">{job?.requirements}</motion.p>
+                  <h1 className="font-semibold mt-4 underline text-white">About This Job</h1>
+                  <motion.p variants={children} className="text-sm text-white">{job?.jobDescription}</motion.p>
                 </motion.div>
 
               </div>
             }
 
             {open === 3 &&
-              <div className="fixed inset-0 z-50 flex border items-start justify-center overflow-y-scroll bg-black/50 p-4 text-black sm:items-center sm:p-8 px-10">
-                <motion.form variants={children} className="p-4 my-auto w-full max-w-4xl min-h-screen rounded-lg bg-white" onSubmit={handleApplySubmit(onSubmit)}>
+              <div className="fixed inset-0 z-50 flex border items-start justify-center overflow-y-scroll bg-black/40 p-4  sm:items-center sm:p-8 px-10 ">
+                <motion.form ref={appRef} variants={children} className="bg-white/10 backdrop-blur-2xl text-white p-4 my-auto w-full min-h-screen max-w-4xl rounded-lg " onSubmit={handleApplySubmit(onSubmit)}>
                   <div className="flex justify-between mb-2">
                     <h1 className="text-lg sm:text-2xl md:text-3xl">Apply for {job?.jobTitle}</h1>
                     <button type="button" aria-label="Close job application" onClick={handleClose}>
                       <X className="cursor-pointer" size={22} />
                     </button>
                   </div>
-                  <h2 className="text-gray-500 text-xs sm:text-sm border-b border-b-gray-400">This application is for the {job?.jobTitle} role in {job?.jobLocation}. Please complete every required field.</h2>
+                  <h2 className="text-white text-xs sm:text-sm border-b border-b-gray-400">This application is for the {job?.jobTitle} role in {job?.jobLocation}. Please complete every required field.</h2>
                   <div className="flex items-center gap-2 mt-4">
                     <p className="rounded-full bg-gray-300 w-5 h-5 text-center text-sm">1</p>
                     <p className="font-semibold text-sm sm:text-lg">Basic Infromation</p>
                   </div>
                   <div className="grid grid-coils-1 sm:grid-cols-2 gap-4 px-4 mt-2">
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="fullName" className="text-gray-500 text-xs sm:text-sm">Full Name</label>
-                      <input className="border border-gray-400  px-2 py-2 rounded-lg" type="text"{...registerApply("name", { required: "Enter your full name" })} />
+                      <label htmlFor="fullName" className="text-white text-xs sm:text-sm">Full Name</label>
+                      <input className="border border-gray-400  px-2 py-2 rounded-lg outline-none" type="text"{...registerApply("name", { required: "Enter your full name" })} />
                       {applyErrors.name && <p className="text-red-500 text-xs">{applyErrors.name.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="email" className="text-gray-500 text-xs sm:text-sm">Email</label>
-                      <input className="border border-gray-400 px-2 py-2 rounded-lg" type="email" {...registerApply("email", { required: "Email is required" })} />
+                      <label htmlFor="email" className="text-white text-xs sm:text-sm">Email</label>
+                      <input className="border border-gray-400 px-2 py-2 rounded-lg outline-none" type="email" {...registerApply("email", { required: "Email is required" })} />
                       {applyErrors.email && <p className="text-red-500 text-xs">{applyErrors.email.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="phoneNumber" className="text-gray-500 text-xs sm:text-sm">Phone or WhatsApp Number</label>
-                      <input className="border border-gray-400 px-2 py-2 rounded-lg" type="text" {...registerApply("phone", { required: "A phone or whatsapp number is required" })} />
+                      <label htmlFor="phoneNumber" className="text-white text-xs sm:text-sm">Phone or WhatsApp Number</label>
+                      <input className="border border-gray-400 px-2 py-2 rounded-lg outline-none" type="text" {...registerApply("phone", { required: "A phone or whatsapp number is required" })} />
                       {applyErrors.phone && <p className="text-red-500 text-xs">{applyErrors.phone.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="location" className="text-gray-500 text-xs sm:text-sm">Current Location</label>
-                      <input className="border border-gray-400 px-2 py-2 rounded-lg" type="text" {...registerApply("location", { required: "Please enter your current location" })} />
-                      <p className="text-xs text-gray-500">City and country</p>
+                      <label htmlFor="location" className="text-white text-xs sm:text-sm">Current Location</label>
+                      <input className="border border-gray-400 px-2 py-2 rounded-lg outline-none" type="text" {...registerApply("location", { required: "Please enter your current location" })} />
+                      <p className="text-xs text-white">City and country</p>
                       {applyErrors.location && <p className="text-red-500 text-xs">{applyErrors.location.message}</p>}
                     </div>
                   </div>
@@ -422,23 +428,23 @@ const Jobs = () => {
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 px-4 mt-4">
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">LinkedIn URL</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="https://linkedin.com/in/..." {...registerApply("linkedin", { required: "A linkedin URL is required" })} />
+                      <label htmlFor="linkedin" className="text-xs sm:text-sm text-white">LinkedIn URL</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm outline-none" type="text" placeholder="https://linkedin.com/in/..." {...registerApply("linkedin", { required: "A linkedin URL is required" })} />
                       {applyErrors.linkedin && <p className="text-red-500 text-xs">{applyErrors.linkedin.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="github" className="text-xs sm:text-sm text-gray-500">GitHub URL</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="https://github.com/..." {...registerApply("github", { required: "A GitHub URL is required for this role" })} />
+                      <label htmlFor="github" className="text-xs sm:text-sm text-white">GitHub URL</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm outline-none" type="text" placeholder="https://github.com/..." {...registerApply("github", { required: "A GitHub URL is required for this role" })} />
                       {applyErrors.github && <p className="text-red-500 text-xs">{applyErrors.github.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="portfolio" className="text-xs sm:text-sm text-gray-500">Portfolio or Personal Website(optional)</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm"{...registerApply("portfolio")} type="text" placeholder="https://..." />
+                      <label htmlFor="portfolio" className="text-xs sm:text-sm text-white">Portfolio or Personal Website(optional)</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm outline-none"{...registerApply("portfolio")} type="text" placeholder="https://..." />
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="resume" className="text-xs sm:text-sm text-gray-500">Resume or CV Link</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="https://..." {...registerApply("resume", { required: "A resume or CV is required" })} />
-                      <p className="text-xs text-gray-500">A link to Google Drive, Dropbox, LinkedIn, your website or a PDF</p>
+                      <label htmlFor="resume" className="text-xs sm:text-sm text-white">Resume or CV Link</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm outline-none" type="text" placeholder="https://..." {...registerApply("resume", { required: "A resume or CV is required" })} />
+                      <p className="text-xs text-white">A link to Google Drive, Dropbox, LinkedIn, your website or a PDF</p>
                       {applyErrors.resume && <p className="text-red-500 text-xs">{applyErrors.resume.message}</p>}
                     </div>
                   </div>
@@ -448,39 +454,39 @@ const Jobs = () => {
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 px-4 mt-4">
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="experience" className="text-xs sm:text-sm text-gray-500">Years of Experience</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="e.g. 4 years" {...registerApply("experience", { required: "Please share your years of experience" })} />
+                      <label htmlFor="experience" className="text-xs sm:text-sm text-white">Years of Experience</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm outline-none" type="text" placeholder="e.g. 4 years" {...registerApply("experience", { required: "Please share your years of experience" })} />
                       {applyErrors.experience && <p className="text-red-500 text-xs">{applyErrors.experience.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">Strongest Programming Language</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" {...registerApply("strongest", { required: "Please indicate your strongest programming language" })} type="text" placeholder="e.g TypeScript,Python" />
+                      <label htmlFor="linkedin" className="text-xs sm:text-sm text-white">Strongest Programming Language</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm outline-none" {...registerApply("strongest", { required: "Please indicate your strongest programming language" })} type="text" placeholder="e.g TypeScript,Python" />
                       {applyErrors.strongest && <p className="text-red-500 text-xs">{applyErrors.strongest.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">Best Project Link</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm"{...registerApply("projectLink", { required: "Please show you best project link" })} type="text" placeholder="https://..." />
+                      <label htmlFor="linkedin" className="text-xs sm:text-sm text-white">Best Project Link</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm outline-none"{...registerApply("projectLink", { required: "Please show you best project link" })} type="text" placeholder="https://..." />
                       {applyErrors.projectLink && <p className="text-red-500 text-xs">{applyErrors.projectLink.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">AI Tools You Use</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" {...registerApply("llm", { required: "Please indicate your preferred AI tool/tools to use" })} type="text" placeholder="e.g Cursor, Claude Code, Codex " />
+                      <label htmlFor="linkedin" className="text-xs sm:text-sm text-white">AI Tools You Use</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm outline-none" {...registerApply("llm", { required: "Please indicate your preferred AI tool/tools to use" })} type="text" placeholder="e.g Cursor, Claude Code, Codex " />
                       {applyErrors.llm && <p className="text-red-500 text-xs">{applyErrors.llm.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label className="text-gray-500 text-xs sm:text-sm" htmlFor="comfort">Comfort with frontend</label>
-                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-gray-500"{...registerApply("frontend")} name="frontend" id="frontend">
-                        <option className="text-gray-500 text-xs sm:text-sm" value="">Select a level </option>
-                        <option className="text-gray-500" value="beginner">Beginner</option>
-                        <option className="text-gray-500" value="intermediate">Intermediate</option>
-                        <option className="text-gray-500" value="advanced">Advanced</option>
-                        <option className="text-gray-500" value="expert">Expert</option>
+                      <label className="text-white text-xs sm:text-sm" htmlFor="comfort">Comfort with frontend</label>
+                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-white outline-none"{...registerApply("frontend")} name="frontend" id="frontend">
+                        <option className="text-gray-500 text-xs smwhite" value="">Select a level </option>
+                        <option className="text-white" value="beginner">Beginner</option>
+                        <option className="text-white" value="intermediate">Intermediate</option>
+                        <option className="text-white" value="advanced">Advanced</option>
+                        <option className="text-white" value="expert">Expert</option>
                       </select>
                     </div>
 
                     <div className="flex flex-col space-y-1">
-                      <label className="text-gray-400 text-xs sm:text-sm" htmlFor="comfort">Comfort with backend</label>
-                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-gray-500"{...registerApply("backend")} name="backend" id="backend">
+                      <label className="text-white text-xs sm:text-sm" htmlFor="comfort">Comfort with backend</label>
+                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-white outline-none"{...registerApply("backend")} name="backend" id="backend">
                         <option className="text-gray-500" value="">Select a level </option>
                         <option className="text-gray-500" value="beginner">Beginner</option>
                         <option className="text-gray-500" value="intermediate">Intermediate</option>
@@ -490,8 +496,8 @@ const Jobs = () => {
                     </div>
 
                     <div className="flex flex-col space-y-1">
-                      <label className="text-gray-400 text-xs sm:text-sm" htmlFor="comfort">Comfort with databases</label>
-                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-gray-500"{...registerApply("databases")} name="databases" id="databases">
+                      <label className="text-white text-xs sm:text-sm" htmlFor="comfort">Comfort with databases</label>
+                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-white outline-none"{...registerApply("databases")} name="databases" id="databases">
                         <option className="text-gray-500" value="">Select a level </option>
                         <option className="text-gray-500" value="beginner">Beginner</option>
                         <option className="text-gray-500" value="intermediate">Intermediate</option>
@@ -501,8 +507,8 @@ const Jobs = () => {
                     </div>
 
                     <div className="flex flex-col space-y-1">
-                      <label className="text-gray-400 text-xs sm:text-sm" htmlFor="comfort">Comfort with AI coding tools</label>
-                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-gray-500"{...registerApply("aiCodingTools")} name="aiCodingTools" id="ai">
+                      <label className="text-white text-xs sm:text-sm" htmlFor="comfort">Comfort with AI coding tools</label>
+                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-white outline-none"{...registerApply("aiCodingTools")} name="aiCodingTools" id="ai">
                         <option className="text-gray-500" value="">Select a level </option>
                         <option className="text-gray-500" value="beginner">Beginner</option>
                         <option className="text-gray-500" value="intermediate">Intermediate</option>
@@ -512,8 +518,8 @@ const Jobs = () => {
                     </div>
                   </div>
                   <div className="mt-4 max-w-4xl w-full flex flex-col p-3">
-                    <label className="text-gray-400 text-xs sm:text-sm mb-1" htmlFor="systems/products">Systems or products you have worked on</label>
-                    <textarea name="systems/products" id="system/products" className="rounded-lg border border-gray-400 h-50 p-2"{...registerApply("systems", { required: "Please confirm systems and products you have worked on" })}></textarea>
+                    <label className="text-white outline-none text-xs sm:text-sm mb-1" htmlFor="systems/products">Systems or products you have worked on</label>
+                    <textarea name="systems/products" id="system/products" className="rounded-lg border border-gray-400 h-50 p-2 outline-none"{...registerApply("systems", { required: "Please confirm systems and products you have worked on" })}></textarea>
                     {applyErrors.systems && <p className="text-red-500 text-xs mt-2">{applyErrors.systems.message}</p>}
                   </div>
                   <div className="flex items-center gap-2 mt-4">
@@ -521,13 +527,13 @@ const Jobs = () => {
                     <p className="font-semibold text-sm sm:text-lg">Written Responses</p>
                   </div>
                   <div className="mt-2 max-w-4xl w-full flex flex-col p-3">
-                    <label className="text-gray-400 text-xs sm:text-sm mb-1" htmlFor="interested">Why are you intrested in this job posting?</label>
-                    <textarea name="interested" id="interested" className="rounded-lg border border-gray-400 h-40 p-2"{...registerApply("interest", { required: `Please tell us why you are interested in the ${job?.jobTitle} role.` })}></textarea>
+                    <label className="text-white text-xs sm:text-sm mb-1" htmlFor="interested">Why are you intrested in this job posting?</label>
+                    <textarea name="interested" id="interested" className="rounded-lg border border-gray-400 h-40 p-2 outline-none"{...registerApply("interest", { required: `Please tell us why you are interested in the ${job?.jobTitle} role.` })}></textarea>
                     {applyErrors.interest && <p className="text-red-500 text-xs mt-2">{applyErrors.interest.message}</p>}
                   </div>
                   <div className="mt-2 max-w-4xl w-full flex flex-col p-3">
-                    <label className="text-gray-400 text-xs sm:text-sm mb-1" htmlFor="tools">How do you currently use AI tools?</label>
-                    <textarea name="tools" id="tools" className="rounded-lg border border-gray-400 h-40 p-2"{...registerApply("aiTools", { required: "Please describe how you use AI Tools." })}></textarea>
+                    <label className="text-white text-xs sm:text-sm mb-1" htmlFor="tools">How do you currently use AI tools?</label>
+                    <textarea name="tools" id="tools" className="rounded-lg border border-gray-400 h-40 p-2 outline-none"{...registerApply("aiTools", { required: "Please describe how you use AI Tools." })}></textarea>
                     {applyErrors.aiTools && <p className="text-red-500 text-xs mt-2">{applyErrors.aiTools.message}</p>}
                   </div>
                   <div className="flex items-center gap-2 mt-4">

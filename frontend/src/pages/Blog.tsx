@@ -5,8 +5,8 @@ import { useRef } from 'react';
 import { useOnClickOutside } from "usehooks-ts";
 
 const Blog = () => {
-  const [selectedBlog, setSelectedJob] = useState<string | null>(null);
   const { data: blogs, isLoading } = useBlogs();
+  const [selectedBlog, setSelectedJob] = useState<string | null>(null);
   const { data: blog } = useBlog(selectedBlog);
   const blogRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(blogRef, () => setSelectedJob(null));
@@ -15,10 +15,6 @@ const Blog = () => {
     setSelectedJob(blogId)
   };
 
-  function handleClose() {
-    setSelectedJob(null)
-
-  };
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8">
@@ -26,7 +22,7 @@ const Blog = () => {
         {!isLoading &&
           blogs?.length > 0 &&
           blogs.map((item) => (
-            <div key={item._id} className="card card-xl w-full max-w-md bg-base-100 text-black shadow-sm">
+            <div key={item._id} className="card card-xl w-full max-w-md  text-white shadow-sm bg-white/10 backdrop-blur-xl">
               <div className="card-body">
                 <img src={item.imageUrl} alt={item.title} className="mb-4 w-full h-48 object-cover" />
                 <span>{item.section}</span>
@@ -41,14 +37,9 @@ const Blog = () => {
       </div>
 
       {selectedBlog && (
-        <div className="border fixed inset-0 z-50 flex justify-center items-start overflow-y-scroll bg-mauve-900/50 p-4 text-black sm:items-center sm:p-8 px-10">
-          <div ref={blogRef} className='p-5 my-auto w-full max-w-5xl min-h-screen rounded-lg bg-white'>
-            <div className='mb-7 flex justify-between'>
-              <h1 className='text-xl sm: text-2xl md:text-3xl font-semibold'>{blog?.title}</h1>
-              <button type="button" aria-label="Close Blog" onClick={handleClose}>
-                <X className="cursor-pointer" size={22} />
-              </button>
-            </div>
+        <div className="bg-white/10 backdrop-blur-xl border fixed inset-0 z-50 flex justify-center items-start overflow-y-scroll bg-mauve-900/50 p-4 text-black sm:items-center sm:p-8 px-10">
+          <div ref={blogRef} className='bg-white/10 backdrop-blur-xl p-5 my-auto w-full max-w-5xl min-h-screen rounded-lg  space-y-10'>
+              <h1 className='text-xl md:text-3xl font-semibold text-center mt-7'>{blog?.title}</h1>
             <div className='px-10'>
               <p className='mb-7 '>{blog?.body1}</p>
               <p className='font-semibold mb-4'>{blog?.body2}</p>
