@@ -1,4 +1,4 @@
-import { motion, spring } from 'motion/react'
+import { motion } from 'motion/react'
 import { NavLink } from 'react-router-dom'
 
 
@@ -13,23 +13,33 @@ const Hero = () => {
         visible: { opacity: 1, y: 0 }
     }
     return (
-        <motion.div variants={parent} initial="hidden" animate="visible" className="mt-55 flex flex-col items-center justify-center px-4 pb-16 sm:px-5 sm:pb-24">
-            <motion.span variants={children} className="border rounded-full px-4 py-2 text-sm bg-linear-to-br from-cyan-400 to-green-800">100+ jobs available</motion.span>
-            <motion.h1 variants={children} className="mt-4 mb-4 text-center text-4xl font-semibold sm:text-5xl md:text-6xl lg:text-7xl">Finding Your Dream <br /><span className="text-rotate text-7xl">
-                <span className="justify-items-center">
-                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text text-transparent bg-linear-to-br from-sky-300 via-purple-100 to-amber-400'>Software Engineering</span>
-                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-linear-to-br from-sky-300 via-purple-100 to-amber-400'>DevOps</span>
-                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-linear-to-br from-sky-300 via-purple-100 to-amber-400'>Frontend Development</span>
-                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-linear-to-br from-sky-300 via-purple-100 to-amber-400'>CI/CD</span>
-                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-linear-to-br from-sky-300 via-purple-100 to-amber-400'>Fullstack Engineering</span>
-                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-linear-to-br from-sky-300 via-purple-100 to-amber-400'>Cloud Engineering</span>
-                </span>
-            </span><br /><span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl">Role Today</span></motion.h1>
-            <motion.h2 variants={children} className="mt-5 mb-5 max-w-5xl text-center text-lg sm:text-2xl md:text-3xl">Search through the latest opportunities in software engineering. Get hired fast with positions updated daily</motion.h2>
-            <motion.div variants={children} whileHover={{ scale: 1.20 }} whileTap={{ scale: 0.9 }} transition={{ type: spring, stiffness: 120, damping: 7 }} className='flex gap-3'>
-                <NavLink to="/jobs" className="bg-linear-to-br from-emerald-400 to-emerald-700 px-4 py-2 rounded border-2 border-slate-500 cursor-pointer text-lg sm:text-xl">Browse</NavLink>
+        <div className="relative min-h-screen bg-[url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D')] bg-cover bg-center bg-no-repeat bg-fixed">
+            <div className="absolute inset-0 bg-black/50"></div>
+            <motion.div variants={parent} initial="hidden" animate="visible" className="relative z-10 flex flex-col min-h-screen justify-center items-center text-center px-4 py-16 sm:px-8 md:px-12 lg:px-16">
+                <motion.h1 variants={children} className="mt-4 mb-4 text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-semibold text-white">
+                    <h1>Finding Your Dream</h1>
+                    <span className="text-rotate">
+                        <span className="justify-items-center">
+                            <span className="bg-clip-text text-transparent bg-linear-to-br from-sky-300 via-purple-100 to-amber-400">Software Engineering</span>
+                            <span className="bg-clip-text text-transparent bg-linear-to-br from-sky-300 via-purple-100 to-amber-400">DevOps</span>
+                            <span className="bg-clip-text text-transparent bg-linear-to-br from-sky-300 via-purple-100 to-amber-400">Frontend Development</span>
+                            <span className="bg-clip-text text-transparent bg-linear-to-br from-sky-300 via-purple-100 to-amber-400">CI/CD</span>
+                            <span className="bg-clip-text text-transparent bg-linear-to-br from-sky-300 via-purple-100 to-amber-400">Fullstack Engineering</span>
+                            <span className="bg-clip-text text-transparent bg-linear-to-br from-sky-300 via-purple-100 to-amber-400">Cloud Engineering</span>
+                        </span>
+                    </span>
+                    <br />
+                    <span className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl">Role Today</span>
+                </motion.h1>
+                <motion.h2 variants={children} className="mt-5 mb-5 max-w-5xl text-lg sm:text-2xl md:text-3xl lg:text-4xl text-white">
+                    Search through the latest opportunities in software engineering.
+                    Get hired fast with positions updated daily.
+                </motion.h2>
+                <motion.div variants={children} className="flex gap-3">
+                    <NavLink to="/jobs" className="animated-border px-10  rounded-[calc(1rem-2px)] py-5  cursor-pointer text-lg sm:text-2xl md:text-3xl text-white">Browse</NavLink>
+                </motion.div>
             </motion.div>
-        </motion.div>
+        </div>
     )
 }
 

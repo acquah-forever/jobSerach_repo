@@ -30,7 +30,7 @@ const ProfileCard = ({onClose}:ProfileCardProps) => {
 
     return (
         <div className='hidden absolute top-12 right-0 sm:flex justify-end text-black px-3 py-4'>
-            <div ref={cardRef} className="card bg-base-100 w-60 p-3">
+            <div ref={cardRef} className="w-60 p-3 bg-white/60 backdrop-blur-xl border border-white  rounded-lg space-y-3">
                 <div>
                     <div className="flex justify-end">
                         <button type='button' aria-label='Close account menu' onClick={onClose}> <X className='cursor-pointer' size={20} /></button>
@@ -51,7 +51,7 @@ const ProfileCard = ({onClose}:ProfileCardProps) => {
                 <div className='divider'></div>
                 {!isLoading && user &&
                     <div className='max-w-2xl w-full'>
-                        <button type='button' className='cursor-pointer bg-linear-to-br  text-slate-500 text-sm mb-3' onClick={handleLogout}>Log out</button>
+                        <button type='button' className='cursor-pointer bg-linear-to-br  text-black text-sm mb-3' onClick={handleLogout}>Log out</button>
                     </div>
                 }
 

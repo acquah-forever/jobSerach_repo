@@ -98,7 +98,7 @@ const Jobs = () => {
   const jobsPerPage = 5;
   const cardRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(cardRef,() => setOpen(null) );
-  const appRef = useRef<HTMLDivElement>(null);
+  const appRef = useRef<HTMLFormElement>(null);
   useOnClickOutside(appRef,() => setOpen(null) );
 
 

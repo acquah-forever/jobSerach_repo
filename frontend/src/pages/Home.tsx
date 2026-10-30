@@ -1,5 +1,6 @@
 import Hero from "../components/Hero"
 import Faq from "../components/Faq"
+import Support from "../components/Support"
 
 
 const Home = () => {
@@ -7,6 +8,7 @@ const Home = () => {
     <div>
       <Hero />
       <Faq />
+      <Support />
     </div>
   )
 }
