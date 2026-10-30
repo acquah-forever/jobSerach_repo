@@ -12,7 +12,8 @@ import { Routes, Route } from "react-router-dom"
 
 const App = () => {
   return (
-    <div className="flex min-h-screen flex-col text-black">
+    <div className="flex min-h-screen flex-col text-black ">
+      <div className="">
         <div className='flex flex-1 flex-col'>
           <Navbar />
           <main className='flex-1'>
@@ -28,6 +29,7 @@ const App = () => {
           </main>
           <Footer />
         </div>
+      </div>
     </div>
   )
 }
