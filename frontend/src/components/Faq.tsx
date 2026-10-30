@@ -25,95 +25,98 @@ const Faq = () => {
             <motion.section id='faq' variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.05 }} className='relative z-10 flex text-white w-full flex-col items-center px-4 sm:px-6 sm:py-24'>
                 <div className='mb-10 max-w-3xl space-y-3 text-center sm:mb-16 sm:space-y-4'>
                     <motion.h1 variants={children} className='text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold'>FAQ</motion.h1>
-                    <motion.p variants={children} className='text-3xl md:text-4xl lg:text-5xl xl:text-6xlfont-semibold'>Questions about how TechJob Finder works and what we offer.</motion.p>
+                    <motion.p variants={children} className='text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold'>Questions about how TechJob Finder works and what we offer.</motion.p>
                 </div>
 
-                <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{ scale: 1.02 }} className='mb-5 w-full max-w-5xl border p-4 sm:mb-7 sm:p-7' onClick={() => handleClick(1)}>
-                    <motion.div variants={children} className='mb-4 flex items-center justify-between gap-4'>
-                        <h3>How often are jobs posted ?</h3>
-                        <button type="button" aria-expanded={open === 1} aria-label="Toggle answer: How often are jobs posted?" className="shrink-0" >
-                            {open === 1 ? <ChevronUp /> : <ChevronDown />}
-                        </button>
+                <div className='max-w-5xl w-full p-10 rounded-2xl bg-white/10 backdrop-blur-sm'>
+
+                    <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{ scale: 1.02 }} className='cursor-pointer mb-5 w-full max-w-5xl border sm:mb-7 sm:p-7 animated-border p-3 rounded-[calc(1rem-2px)]' onClick={() => handleClick(1)}>
+                        <motion.div variants={children} className='mb-4 flex items-center justify-between gap-4'>
+                            <h3 className='text-xl md:text-2xl lg:text-3xl'>How often are jobs posted ?</h3>
+                            <button type="button" aria-expanded={open === 1} aria-label="Toggle answer: How often are jobs posted?" className="shrink-0" >
+                                {open === 1 ? <ChevronUp size={30} /> : <ChevronDown size={30} />}
+                            </button>
+                        </motion.div>
+
+                        {open === 1 && (
+                            <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.7 }}>
+                                <motion.p className='text- md:text-lg lg:text-xl' variants={children}>New positions arrive daily from companies actively hiring. We refresh listings regularly so
+                                    you never miss an opportunity. The best jobs move fast, and we make sure you see them first.
+                                </motion.p>
+                            </motion.div>
+                        )}
+
                     </motion.div>
 
-                    {open === 1 && (
-                        <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.7 }}>
-                            <motion.p variants={children}>New positions arrive daily from companies actively hiring. We refresh listings regularly so
-                                you never miss an opportunity. The best jobs move fast, and we make sure you see them first.
-                            </motion.p>
+                    <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{ scale: 1.02 }} className='cursor-pointer mb-5 w-full max-w-5xl border sm:mb-7 sm:p-7 animated-border p-3 rounded-[calc(1rem-2px)]' onClick={() => handleClick(2)}>
+                        <motion.div variants={children} className='mb-4 flex items-center justify-between gap-4'>
+                            <h3 className='text-xl md:text-2xl lg:text-3xl'>Can I filter by location ?</h3>
+                            <button type="button" aria-expanded={open === 2} aria-label="Toggle answer: Can I filter by location?" className="shrink-0" >
+                                {open === 2 ? <ChevronUp size={30} /> : <ChevronDown size={30} />}
+                            </button>
                         </motion.div>
-                    )}
 
-                </motion.div>
-
-                <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{ scale: 1.02 }} className='mb-5 w-full max-w-5xl border p-4 sm:mb-7 sm:p-7' onClick={() => handleClick(2)}>
-                    <motion.div variants={children} className='mb-4 flex items-center justify-between gap-4'>
-                        <h3>Can I filter by location ?</h3>
-                        <button type="button" aria-expanded={open === 2} aria-label="Toggle answer: Can I filter by location?" className="shrink-0" >
-                            {open === 2 ? <ChevronUp /> : <ChevronDown />}
-                        </button>
+                        {open === 2 && (
+                            <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.7 }}>
+                                <motion.p className='text- md:text-lg lg:text-xl' variants={children}>Yes. Filter by remote, on-site or specific cities. You can also combine location with the role type and
+                                    experience level. Our search understands what you want and shows only what matches.
+                                </motion.p>
+                            </motion.div>
+                        )}
                     </motion.div>
 
-                    {open === 2 && (
-                        <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.7 }}>
-                            <motion.p variants={children}>Yes. Filter by remote, on-site or specific cities. You can also combine location with the role type and
-                                experience level. Our search understands what you want and shows only what matches.
-                            </motion.p>
+                    <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{ scale: 1.02 }} className='cursor-pointer mb-5 w-full max-w-5xl border sm:mb-7 sm:p-7 animated-border p-3 rounded-[calc(1rem-2px)]' onClick={() => handleClick(3)}>
+                        <motion.div variants={children} className='mb-4 flex items-center justify-between gap-4'>
+                            <h3 className='text-xl md:text-2xl lg:text-3xl'>Is there a cost to use this ?</h3>
+                            <button type="button" aria-expanded={open === 3} aria-label="Toggle answer: Is there a cost to use this?" className="shrink-0" >
+                                {open === 3 ? <ChevronUp size={30} /> : <ChevronDown size={30} />}
+                            </button>
                         </motion.div>
-                    )}
-                </motion.div>
 
-                <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{ scale: 1.02 }} className='mb-5 w-full max-w-5xl border p-4 sm:mb-7 sm:p-7' onClick={() => handleClick(3)}>
-                    <motion.div variants={children} className='mb-4 flex items-center justify-between gap-4'>
-                        <h3>Is there a cost to use this ?</h3>
-                        <button type="button" aria-expanded={open === 3} aria-label="Toggle answer: Is there a cost to use this?" className="shrink-0" >
-                            {open === 3 ? <ChevronUp /> : <ChevronDown />}
-                        </button>
+                        {open === 3 && (
+                            <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}>
+                                <motion.p className='text- md:text-lg lg:text-xl' variants={children} >This is free for job seekers. Browse, search and apply without paying anything. We make
+                                    money from employers, not from you
+                                </motion.p>
+                            </motion.div>
+                        )}
                     </motion.div>
 
-                    {open === 3 && (
-                        <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}>
-                            <motion.p variants={children} >This is free for job seekers. Browse, search and apply without paying anything. We make
-                                money from employers, not from you
-                            </motion.p>
+                    <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{ scale: 1.02 }} className='cursor-pointer mb-5 w-full max-w-5xl border sm:mb-7 sm:p-7 animated-border p-3 rounded-[calc(1rem-2px)]' onClick={() => handleClick(4)}>
+                        <motion.div variants={children} className='mb-4 flex items-center justify-between gap-4'>
+                            <h3 className='text-xl md:text-2xl lg:text-3xl'>How do you curate jobs?</h3>
+                            <button type="button" aria-expanded={open === 4} aria-label="Toggle answer: How do you curate jobs?" className="shrink-0">
+                                {open === 4 ? <ChevronUp size={30} /> : <ChevronDown size={30} />}
+                            </button>
                         </motion.div>
-                    )}
-                </motion.div>
 
-                <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{ scale: 1.02 }} className='mb-5 w-full max-w-5xl border p-4 sm:mb-7 sm:p-7' onClick={() => handleClick(4)}>
-                    <motion.div variants={children} className='mb-4 flex items-center justify-between gap-4'>
-                        <h3>How do you curate jobs?</h3>
-                        <button type="button" aria-expanded={open === 4} aria-label="Toggle answer: How do you curate jobs?" className="shrink-0">
-                            {open === 4 ? <ChevronUp /> : <ChevronDown />}
-                        </button>
+                        {open === 4 && (
+                            <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}>
+                                <motion.p className='text- md:text-lg lg:text-xl' variants={children}>We review every position to ensure quality. No spam, no dead ends, no companies with bad
+                                    reputations. We show you positions from places worth your time.
+                                </motion.p>
+                            </motion.div>
+                        )}
+
                     </motion.div>
 
-                    {open === 4 && (
-                        <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}>
-                            <motion.p variants={children}>We review every position to ensure quality. No spam, no dead ends, no companies with bad
-                                reputations. We show you positions from places worth your time.
-                            </motion.p>
+                    <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{ scale: 1.02 }} className='cursor-pointer mb-5 w-full max-w-5xl border sm:mb-7 sm:p-7 animated-border p-3 rounded-[calc(1rem-2px)]' onClick={() => handleClick(5)}>
+                        <motion.div variants={children} className='mb-4 flex items-center justify-between gap-4'>
+                            <h3 className='text-xl md:text-2xl lg:text-3xl'>Can I set job alerts ?</h3>
+                            <button type="button" aria-expanded={open === 5} aria-label="Toggle answer: Can I set job alerts?" className="shrink-0" >
+                                {open === 5 ? <ChevronUp size={30} /> : <ChevronDown size={30} />}
+                            </button>
                         </motion.div>
-                    )}
 
-                </motion.div>
-
-                <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{ scale: 1.02 }} className='mb-5 w-full max-w-5xl border p-4 sm:mb-7 sm:p-7' onClick={() => handleClick(5)}>
-                    <motion.div variants={children} className='mb-4 flex items-center justify-between gap-4'>
-                        <h3>Can I set job alerts ?</h3>
-                        <button type="button" aria-expanded={open === 5} aria-label="Toggle answer: Can I set job alerts?" className="shrink-0" >
-                            {open === 5 ? <ChevronUp /> : <ChevronDown />}
-                        </button>
+                        {open === 5 && (
+                            <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}>
+                                <motion.p className='text- md:text-lg lg:text-xl' variants={children}>Not yet, but it is coming soon. For now, check back daily or use our search to find roles matching your
+                                    criteria. New listings arrive consistently.
+                                </motion.p>
+                            </motion.div>
+                        )}
                     </motion.div>
-
-                    {open === 5 && (
-                        <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}>
-                            <motion.p variants={children}>Not yet, but it is coming soon. For now, check back daily or use our search to find roles matching your
-                                criteria. New listings arrive consistently.
-                            </motion.p>
-                        </motion.div>
-                    )}
-                </motion.div>
+                </div>
             </motion.section>
 
         </div>

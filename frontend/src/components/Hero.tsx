@@ -36,7 +36,7 @@ const Hero = () => {
                     Get hired fast with positions updated daily.
                 </motion.h2>
                 <motion.div variants={children} className="flex gap-3">
-                    <NavLink to="/jobs" className="bg-linear-to-br from-blue-500 to-amber-300 px-6 py-3 rounded-full border-2  cursor-pointer text-lg sm:text-2xl md:text-3xl text-white">Browse</NavLink>
+                    <NavLink to="/jobs" className="animated-border px-10  rounded-[calc(1rem-2px)] py-5  cursor-pointer text-lg sm:text-2xl md:text-3xl text-white">Browse</NavLink>
                 </motion.div>
             </motion.div>
         </div>
