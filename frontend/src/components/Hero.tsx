@@ -15,7 +15,6 @@ const Hero = () => {
     return (
         <div className="relative min-h-screen bg-[url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D')] bg-cover bg-center bg-no-repeat bg-fixed">
             <div className="absolute inset-0 bg-black/50"></div>
-            
             <motion.div variants={parent} initial="hidden" animate="visible" className="relative z-10 flex flex-col min-h-screen justify-center items-center text-center px-4 py-16 sm:px-8 md:px-12 lg:px-16">
                 <motion.h1 variants={children} className="mt-4 mb-4 text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-semibold text-white">
                     <h1>Finding Your Dream</h1>
@@ -37,7 +36,7 @@ const Hero = () => {
                     Get hired fast with positions updated daily.
                 </motion.h2>
                 <motion.div variants={children} className="flex gap-3">
-                    <NavLink to="/jobs" className="bg-linear-to-br from-emerald-400 to-emerald-700 px-6 py-3 rounded border-2 border-slate-500 cursor-pointer text-lg sm:text-2xl md:text-3xl text-white">Browse</NavLink>
+                    <NavLink to="/jobs" className="bg-linear-to-br from-blue-500 to-amber-300 px-6 py-3 rounded-full border-2  cursor-pointer text-lg sm:text-2xl md:text-3xl text-white">Browse</NavLink>
                 </motion.div>
             </motion.div>
         </div>
