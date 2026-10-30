@@ -41,7 +41,7 @@ const Navbar = () => {
 
     return (
         <header className="sticky top-0 z-50">
-            <nav className=" flex items-center justify-between px-5 py-1.5 sm:px-10  lg:px-15 bg-white/10 backdrop-blur-xl border-b border-white/20">
+            <nav className=" flex items-center justify-between px-5 py-1.5 sm:px-10  lg:px-15 bg-white/10 backdrop-blur-xl border-b border-white/20 text-white">
                 <NavLink to="/" className="cursor-pointer text-lg flex items-center gap-2">
                     <House aria-label="Home" className="cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" size={28} />
                     <h1>TechJob Finder</h1>
