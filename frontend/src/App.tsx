@@ -13,11 +13,11 @@ import { Routes, Route } from "react-router-dom"
 const App = () => {
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-slate-50 text-black">
+    <div className="flex min-h-screen w-full flex-col bg-slate-700 text-black">
       <div className="flex w-full flex-1 flex-col">
         <div className="flex min-w-0 flex-1 flex-col">
           <Navbar />
-          <main className="w-full min-w-0 flex-1 bg-slate-50">
+          <main className="w-full min-w-0 flex-1 bg-slate-500">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
