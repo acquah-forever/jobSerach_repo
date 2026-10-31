@@ -236,7 +236,7 @@ const Jobs = () => {
 
   return (
     <>
-      <motion.section variants={parent} initial="hidden" animate="visible" className="flex flex-col px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
+      <motion.section variants={parent} initial="hidden" animate="visible" className="container mx-auto flex flex-col px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
         <motion.form variants={children} className="flex items-center gap-2 border border-white max-w-xl w-full px-4 py-1 rounded-2xl"  >
           <Search size={20} />
           <input className="w-full outline-none" type="text" placeholder="Describe the job you want..." {...register("text")} />

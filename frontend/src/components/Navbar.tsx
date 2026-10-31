@@ -81,20 +81,20 @@ const Navbar = () => {
             <AnimatePresence>
                 {
                     open === 2 && (
-                        <motion.nav className=" px-10 py-3 bg-white/10 backdrop-blur-md" variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }}>
+                        <motion.nav className="absolute top-full left-0 z-50 w-full px-4 sm:px-10 py-3 bg-white/10 backdrop-blur-md shadow-lg text-white" variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }}>
                             <ul className="flex flex-col space-y-2 justify-start md:hidden">
                                 <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:underline duration-200" onClick={() => handleOpen(null)}>About</li>
                                 <NavLink to="/jobs" className="text-md cursor-pointer flex justify-center items-center transition-all hover:underline duration-200" onClick={() => handleOpen(null)}>Jobs</NavLink>
                                 {
                                     !isLoading && user ?
-                                        <div className="rounded-lg flex md:hidden gap-2 p-2 justify-center items-center">
-                                            <NavLink to="/profile" className="cursor-pointer transition-all hover:scale-107 hover:underline duration-300 bg-linear-to-tr from-slate-100 to-cyan-400 text-transparent bg-clip-text text-md">{user.name}</NavLink>
+                                        <div className="rounded-lg flex md:hidden flex-wrap gap-2 p-2 justify-center items-center">
+                                            <NavLink to="/profile" className="cursor-pointer transition-all hover:scale-107 hover:underline duration-300 bg-linear-to-tr from-slate-100 to-cyan-400 text-transparent bg-clip-text text-md" onClick={() => handleOpen(null)}>{user.name}</NavLink>
                                             <div className="text-3xl text-emerald-500">|</div>
                                             <button type="button" className="text-md transition-all hover:scale-107 hover:underline duration-300 cursor-pointer px-2 py-1" onClick={handleClick}>Log Out</button>
                                         </div>
                                         :
-                                        <NavLink className="flex md:hidden justify-center items-center gap-2 px-5 py-2cursor-pointer transition-all hover:scale-110 hover:underline duration-300" to="/login">
-                                            <UserRoundArrowLeft className='border bg-gray-500 rounded-full px-' size={22} />
+                                        <NavLink className="flex md:hidden justify-center items-center gap-2 px-5 py-2 cursor-pointer transition-all hover:scale-110 hover:underline duration-300" to="/login" onClick={() => handleOpen(null)}>
+                                            <UserRoundArrowLeft className="border bg-gray-500 rounded-full" size={22} />
                                             <h1 className="text-md">Log In</h1>
                                         </NavLink>
                                 }
@@ -103,6 +103,7 @@ const Navbar = () => {
                     )
                 }
             </AnimatePresence>
+
 
             <AnimatePresence>
                 {open && (
