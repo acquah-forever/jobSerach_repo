@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+body {
+    font-family: "Montserrat", sans-serif;
+}
+
 @keyframes rotate-border {
   to {
     transform: rotate(360deg);

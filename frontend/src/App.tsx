@@ -11,12 +11,13 @@ import Footer from "./components/Footer"
 import { Routes, Route } from "react-router-dom"
 
 const App = () => {
+
   return (
-    <div className="flex min-h-screen flex-col text-black bg-linear-to-br from-sky-500 to-amber-300">
-      <div className="">
-        <div className='flex flex-1 flex-col'>
+    <div className="flex min-h-screen w-full flex-col bg-slate-50 text-black">
+      <div className="flex w-full flex-1 flex-col">
+        <div className="flex min-w-0 flex-1 flex-col">
           <Navbar />
-          <main className='flex-1'>
+          <main className="w-full min-w-0 flex-1 bg-slate-50">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
@@ -27,6 +28,7 @@ const App = () => {
               <Route path="/insights" element={<Insights />} />
             </Routes>
           </main>
+
           <Footer />
         </div>
       </div>
@@ -35,3 +37,4 @@ const App = () => {
 }
 
 export default App
+
