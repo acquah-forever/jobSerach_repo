@@ -7,11 +7,9 @@ import Jobs from "./pages/Jobs"
 import Blog from "./pages/Blog"
 import Insights from "./pages/Insights"
 import Footer from "./components/Footer"
-import { AnimatePresence } from "framer-motion"
-import { Routes, Route, useLocation } from "react-router-dom"
+import { Routes, Route, } from "react-router-dom"
 
 const App = () => {
-  const location = useLocation();
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-slate-700 text-black">
@@ -19,8 +17,7 @@ const App = () => {
         <div className="flex min-w-0 flex-1 flex-col">
           <Navbar />
           <main className="w-full min-w-0 flex-1 bg-slate-500">
-            <AnimatePresence mode="wait">
-              <Routes location={location} key={location.pathname}>
+              <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
@@ -29,7 +26,6 @@ const App = () => {
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/insights" element={<Insights />} />
               </Routes>
-            </AnimatePresence>
           </main>
           <Footer />
         </div>

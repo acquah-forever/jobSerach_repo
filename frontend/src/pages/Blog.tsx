@@ -14,7 +14,6 @@ const Blog = () => {
     setSelectedJob(blogId)
   };
 
-
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8">
       <div className="mx-auto mt-12 grid w-full max-w-7xl grid-cols-1 justify-items-center gap-6 sm:grid-cols-2 xl:grid-cols-3">
