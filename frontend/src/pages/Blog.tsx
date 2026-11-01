@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useBlogs, useBlog } from '../authContext/useAuth5'
-import { X } from 'lucide-react'
 import { useRef } from 'react';
 import { useOnClickOutside } from "usehooks-ts";
 
@@ -14,7 +13,6 @@ const Blog = () => {
   function handleClick(blogId: string) {
     setSelectedJob(blogId)
   };
-
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8">
