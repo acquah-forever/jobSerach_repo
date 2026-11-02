@@ -116,7 +116,7 @@ const Jobs = () => {
     const searchTerm = query.trim().toLowerCase()
 
     return jobs.filter((job) => {
-      
+
       const matchesSearch =
         searchTerm === "" ||
         job.jobTitle.toLowerCase().includes(searchTerm) ||
@@ -198,7 +198,7 @@ const Jobs = () => {
   function onSubmit(data: ApplicationForm) {
 
     if (!selectedJob) {
-      alert("Please select  job before applying")
+      alert("Please select job before applying")
       return
     }
 

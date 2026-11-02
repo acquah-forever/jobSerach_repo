@@ -27,8 +27,11 @@ const Support = () => {
             onSuccess: () => {
                 alert("Message sent!");
                 reset(resetAll) 
-            }
-        })
+            },
+            onError: () => {
+                alert("Message submission failed. Please try again later.");
+}
+})
 
     };
 
