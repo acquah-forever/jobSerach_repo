@@ -29,7 +29,7 @@ const Support = () => {
                     <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6'>
                         <div className='flex flex-col gap-2'>
                             <label htmlFor="firstname">Firstname</label>
-                            <input id="firstname" name="firstname" type="text" className='w-full rounded-lg bg-white/90 px-4 py-3 text-black outline-none focus:ring-2 focus:ring-sky-400'{...register("firstname", {required: "Enter your first name"})} />
+                            <input id="firstname" name="firstname" type="text" aria-required="true" className='w-full rounded-lg bg-white/90 px-4 py-3 text-black outline-none focus:ring-2 focus:ring-sky-400'{...register("firstname", {required: "Enter your first name"})} />
                             {errors.firstname && <p className='text-red-400 text-md font-semibold flex items-center my-2'>{errors.firstname.message}</p>}
                         </div>
                         <div className='flex flex-col gap-2'>
