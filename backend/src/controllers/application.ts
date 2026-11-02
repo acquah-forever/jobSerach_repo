@@ -91,7 +91,6 @@ export const createApplication: RequestHandler<unknown, unknown, ApplyValue, unk
         } = validateData
 
 
-
         const existingApplication = await Application.exists({ user: authenticatedUser, job })
 
         if (existingApplication) {
@@ -129,7 +128,10 @@ export const createApplication: RequestHandler<unknown, unknown, ApplyValue, unk
     }
     catch (error) {
         if (error instanceof ZodError) {
-            throw createHttpError(400, "Invalid application data")
+            throw createHttpError(400, {
+                message: "Invalid application data",
+                errors: error.issues
+            })
         }
         next(error)
     }

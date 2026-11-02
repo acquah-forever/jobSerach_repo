@@ -24,7 +24,7 @@ const Blog = () => {
               <div className="card-body">
                 <img src={item.imageUrl} alt={item.title} className="mb-4 w-full h-48 object-cover" />
                 <span>{item.section}</span>
-                <h2 className="break-words text-base font-semibold sm:text-lg md:text-xl">{item.title}</h2>
+                <h2 className="wrap-break-word text-base font-semibold sm:text-lg md:text-xl">{item.title}</h2>
                 <p className="text-sm sm:text-base text-wrap">{item.blurb}</p>
                 <div className="mt-6 flex justify-start">
                   <button className="btn btn-soft btn-secondary" onClick={() => handleClick(item._id)}>Read More</button>
@@ -35,7 +35,7 @@ const Blog = () => {
       </div>
 
       {selectedBlog && (
-        <div className="bg-white/10 backdrop-blur-xl border fixed inset-0 z-50 flex justify-center items-start overflow-y-scroll bg-mauve-900/50 p-4 text-black sm:items-center sm:p-8 px-10">
+        <div className="bg-white/10 backdrop-blur-xl border fixed inset-0 z-50 flex justify-center items-start overflow-y-scroll p-4 text-black sm:items-center sm:p-8 px-10">
           <div ref={blogRef} className='bg-white/10 backdrop-blur-xl p-5 my-auto w-full max-w-5xl min-h-screen rounded-lg  space-y-10'>
               <h1 className='text-xl md:text-3xl font-semibold text-center mt-7'>{blog?.title}</h1>
             <div className='px-10'>

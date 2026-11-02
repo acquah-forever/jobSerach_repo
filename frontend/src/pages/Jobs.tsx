@@ -10,8 +10,6 @@ import { useCreateApplication } from "../authContext/useAuth3";
 import { ClipLoader } from "react-spinners";
 import { motion, AnimatePresence } from "motion/react";
 
-
-
 interface QueryValue {
   text: string
 };
@@ -118,6 +116,7 @@ const Jobs = () => {
     const searchTerm = query.trim().toLowerCase()
 
     return jobs.filter((job) => {
+
       const matchesSearch =
         searchTerm === "" ||
         job.jobTitle.toLowerCase().includes(searchTerm) ||
@@ -199,7 +198,7 @@ const Jobs = () => {
   function onSubmit(data: ApplicationForm) {
 
     if (!selectedJob) {
-      alert("Please select  job before applying")
+      alert("Please select job before applying")
       return
     }
 
@@ -341,7 +340,7 @@ const Jobs = () => {
                     <button key={item._id} className="bg-white/10 backdrop-blur-2xl cursor-pointer text-start p-3 rounded-lg mb-4 hover:scale-105 duration-180 w-75 sm:w-70 md:w-80 lg-100 " type="button" onClick={() => handleSelect(item._id)}>
                       <img className=" h-15 w-15 object-cover rounded-full" src={item.imageUrl} alt="company logo" />
                       <h1 className="text-lg sm:text-xl text-sky-200">{item.jobTitle}</h1>
-                      <p className="text-sm text-black text-white">{item.company}</p>
+                      <p className="text-sm text-white">{item.company}</p>
                       <p className="text-sm text-white">{item.jobLocation}</p>
                     </button>
                   ))

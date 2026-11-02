@@ -82,7 +82,10 @@ export const createAbout: RequestHandler<unknown, unknown, AboutData, unknown> =
     }
     catch (error) {
         if (error instanceof ZodError) {
-            throw createHttpError(400, "Invalid Data")
+            throw createHttpError(400, {
+                message: "Invalid Data",
+                details: error.issues
+            })
         }
         next(error)
     }
@@ -101,6 +104,7 @@ export const updateAbout: RequestHandler<{ id: string }, unknown, AboutData, unk
         const { about } = validateData
 
         const aboutId = req.params.id
+
         if (!mongoose.isValidObjectId(aboutId)) {
             throw createHttpError(400, "Invalid about id")
         }
@@ -120,7 +124,10 @@ export const updateAbout: RequestHandler<{ id: string }, unknown, AboutData, unk
     }
     catch (error) {
         if (error instanceof ZodError) {
-            throw createHttpError(400, "Invalid Data")
+            throw createHttpError(400, {
+                message: "Invalid update data",
+                errors: error.issues
+            })
         }
         next(error)
     }
