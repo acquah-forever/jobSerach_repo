@@ -1,25 +1,31 @@
 const API_URL = import.meta.env.VITE_API_URL;
+if (!API_URL) throw new Error("VITE_API_URL is not set");
 
-export interface SupportValue {
-    id: string,
+
+interface Support {
+    _id: string,
     firstName: string,
     lastName: string,
     email: string,
-    message: string
+    message: string,
+    createdAt: string,
+    updatedAt: string
 }
 
-export async function createMessage(data: SupportValue) {
-    const response = await fetch(`${API_URL}`, {
+export type SupportInput = Omit<Support, "_id" | "createdAt" | "updatedAt">;
+
+export async function createMessage(data: SupportInput) {
+    const response = await fetch(`${API_URL}/support`, {
         method: "POST",
         headers: {
-            "Content-Type":"application/json"
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify(data)
+        body: JSON.stringify(data)
 
     });
 
-    if(!response.ok) {
-        throw new Error("Something went wrong")
+    if (!response.ok) {
+        throw new Error("Failed to create about message")
 
     }
 
