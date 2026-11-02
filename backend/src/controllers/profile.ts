@@ -82,13 +82,16 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
 
     catch (error) {
         if (error instanceof ZodError) {
-            throw createHttpError(400, "Invalid data")
+            throw createHttpError(400, {
+                message: "Invalid profile data",
+                errors: error.issues
+            })
         }
         next(error)
     }
 }
 
-interface Update extends Partial<ProfileInput> { }
+interface Update extends Partial<ProfileInput> { };
 
 export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unknown> = async (req, res, next) => {
     try {
@@ -143,16 +146,11 @@ export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unkn
 
     catch (error) {
         if (error instanceof ZodError) {
-            console.error("Profile validation errors:", error.issues);
-            console.error("Received profile body:", req.body);
-
-            res.status(400).json({
-                error: "Invalid data",
-                details: error.issues,
-            });
-            return;
+            throw createHttpError(400, {
+                message: "Invalid update data",
+                errors: error.issues
+            })
         }
-
-        next(error);
+        next(error)
     }
-}
+} 
