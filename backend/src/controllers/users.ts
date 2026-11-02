@@ -78,7 +78,10 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
     }
     catch (error) {
         if (error instanceof ZodError) {
-            throw createHttpError(400, "Invalid Data")
+            throw createHttpError(400, {
+                message: "Invalid data",
+                errors: error.issues
+            })
         }
         return next(error)
     }
@@ -126,9 +129,12 @@ export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (re
     }
     catch (error) {
         if (error instanceof ZodError) {
-            return next(createHttpError(400, "Invalid data"));
+            throw createHttpError(400, {
+                message: "Invalid data",
+                errors: error.issues
+            })
         }
-        next(error)
+        return next(error)
     }
 };
 
