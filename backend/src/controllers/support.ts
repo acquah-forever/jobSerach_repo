@@ -12,7 +12,7 @@ interface SupportValue {
     message: string
 };
 
-export  const createMessage: RequestHandler<unknown, unknown, SupportValue, unknown> = async (req, res, next) => {
+export const createMessage: RequestHandler<unknown, unknown, SupportValue, unknown> = async (req, res, next) => {
     try {
 
         const validateData = supportSchema.parse(req.body);
@@ -25,16 +25,15 @@ export  const createMessage: RequestHandler<unknown, unknown, SupportValue, unkn
             message
         });
 
-        if(!newMessage) {
-            throw createHttpError(400, "Message not created")
-        };
-
         res.status(201).json(newMessage);
     }
-    catch(error) {
-        if(error instanceof ZodError) {
-            throw createHttpError(400, "Invalid support data")
+    catch (error) {
+        if (error instanceof ZodError) {
+            return next(createHttpError(400, {
+                message: "Invalid support data",
+                errors: error.issues
+            }));
         }
-        next(error)
+        next(error);
     }
 }

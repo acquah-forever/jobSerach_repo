@@ -1,10 +1,10 @@
 import { z } from "zod";
 
 export const supportSchema = z.object({
-    firstName: z.string().min(1).trim(),
-    lastName: z.string().min(1).trim(),
-    email: z.string().min(1).trim().email(),
-    message: z.string().min(1) 
+    firstName: z.string().trim().min(1, "First name is required"),
+    lastName: z.string().trim().min(1, "Last name is required"),
+    email: z.string().trim().min(1, "Email is required").email("Invalid email address"),
+    message: z.string().trim().min(1, "Message is required")
 });
 
-export type SupportnInput = z.infer<typeof supportSchema>;
+export type SupportInput = z.infer<typeof supportSchema>;
