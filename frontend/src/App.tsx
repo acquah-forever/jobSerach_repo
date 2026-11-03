@@ -12,7 +12,7 @@ import { Routes, Route, } from "react-router-dom"
 const App = () => {
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-linear-to-br from-cyan-400 via-blue-700 to-indigo-950 text-black">
+    <div className="flex min-h-screen w-full flex-col bg-blue-100 text-black">
       <div className="flex w-full flex-1 flex-col">
         <div className="flex min-w-0 flex-1 flex-col">
           <Navbar />
