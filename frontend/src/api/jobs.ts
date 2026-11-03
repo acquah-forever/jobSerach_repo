@@ -18,7 +18,7 @@ export async function getJobs(): Promise<Job[]> {
     const response = await fetch(`${API_URL}/jobs`);
 
     if (!response.ok) {
-        throw new Error("Oops! Failed to Fetch jobs");
+        throw new Error("Oops! Failed to Fetch Jobs");
     }
 
     return response.json() as Promise<Job[]>;

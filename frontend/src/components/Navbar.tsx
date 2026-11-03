@@ -4,7 +4,7 @@ import { useOnClickOutside } from "usehooks-ts";
 import ProfileCard from "./ProfileCard";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useLogout, useAuthenticatedUser } from "../authContext/useAuth";
-import { Ellipsis, House, TableOfContents, Handshake, Menu, X, UserRoundArrowLeft, BriefcaseConveyorBelt, Bell } from 'lucide-react'
+import { Ellipsis, House, TableOfContents, Handshake, Menu, X, UserRoundArrowLeft, BriefcaseConveyorBelt} from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 
 const Navbar = () => {
@@ -51,10 +51,7 @@ const Navbar = () => {
                         <BriefcaseConveyorBelt size={22} />
                         <h1 className="text-md text-lg">Jobs</h1>
                     </NavLink>
-                    <button type="button" aria-label="notifications" className="cursor-pointer flex flex-col justify-center items-center hover:underline duration-200">
-                        <Bell size={20} />
-                        <h1 className='text-md sm:text-lg'>Notifications</h1>
-                    </button>
+
                     <button type="button" className="text-md cursor-pointer flex flex-col justify-center items-center transition-all  hover:underline duration-200" onClick={() => handleOpen(1)}>
                         <Ellipsis size={20} />
                         <h1 className="text-md sm:text-lg">More</h1>
@@ -81,14 +78,14 @@ const Navbar = () => {
             <AnimatePresence>
                 {
                     open === 2 && (
-                        <motion.nav className="absolute top-full left-0 z-50 w-full px-4 sm:px-10 py-3 bg-white/10 backdrop-blur-md shadow-lg text-white" variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }}>
+                        <motion.nav className="absolute top-full left-0 z-50 w-full px-4 sm:px-10 py-3 bg-white/10 backdrop-blur-2xl shadow-lg text-black" variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }}>
                             <ul className="flex flex-col space-y-2 justify-start md:hidden">
-                                <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:underline duration-200" onClick={() => handleOpen(null)}>About</li>
-                                <NavLink to="/jobs" className="text-md cursor-pointer flex justify-center items-center transition-all hover:underline duration-200" onClick={() => handleOpen(null)}>Jobs</NavLink>
+                                <NavLink to='/blog' className="text-md cursor-pointer flex justify-center items-center transition-all hover:underline duration-200" >Blog</NavLink>
+                                <NavLink to="/jobs" className="text-md cursor-pointer flex justify-center items-center transition-all hover:underline duration-200" >Jobs</NavLink>
                                 {
                                     !isLoading && user ?
                                         <div className="rounded-lg flex md:hidden flex-wrap gap-2 p-2 justify-center items-center">
-                                            <NavLink to="/profile" className="cursor-pointer transition-all hover:scale-107 hover:underline duration-300 bg-linear-to-tr from-slate-100 to-cyan-400 text-transparent bg-clip-text text-md" onClick={() => handleOpen(null)}>{user.name}</NavLink>
+                                            <NavLink to="/profile" className="cursor-pointer transition-all hover:scale-107 hover:underline duration-300 text-black text-md" onClick={() => handleOpen(null)}>{user.name}</NavLink>
                                             <div className="text-3xl text-emerald-500">|</div>
                                             <button type="button" className="text-md transition-all hover:scale-107 hover:underline duration-300 cursor-pointer px-2 py-1" onClick={handleClick}>Log Out</button>
                                         </div>
@@ -145,7 +142,7 @@ const Navbar = () => {
                                         <h1 className='text-sm font-semibold'>Finding Your Next Role</h1>
                                         <h2 className='text-sm'>Tips for landing positions.</h2>
                                         <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                            <NavLink to='/insights' className='text-sm underline' onClick={() => setOpen(null)} >Read More</NavLink>
+                                            <NavLink to='/blog' className='text-sm underline' onClick={() => setOpen(null)} >Read More</NavLink>
                                         </motion.div>
                                     </div>
                                 </div>
