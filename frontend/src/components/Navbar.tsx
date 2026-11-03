@@ -41,28 +41,28 @@ const Navbar = () => {
 
     return (
         <header className="sticky top-0 z-50">
-            <nav className=" flex items-center justify-between px-5 py-1.5 sm:px-10  lg:px-15 bg-white/10 backdrop-blur-xl text-white ">
+            <nav className=" flex items-center justify-between px-5 py-1.5 sm:px-10  lg:px-15 bg-black/10 backdrop-blur-2xl text-black ">
                 <NavLink to="/" className="cursor-pointer text-lg flex items-center gap-2">
                     <House aria-label="Home" className="cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" size={28} />
                     <h1 className='text-md sm:text-lg'>TechJob Finder</h1>
                 </NavLink>
                 <ul className="space-x-5 hidden sm:flex">
-                    <NavLink to="/jobs" className="text-md cursor-pointer flex flex-col justify-center items-center transition-all hover:text-slate-200 hover:underline duration-200">
+                    <NavLink to="/jobs" className="text-md cursor-pointer flex flex-col justify-center items-center transition-all hover:underline duration-200">
                         <BriefcaseConveyorBelt size={22} />
                         <h1 className="text-md text-lg">Jobs</h1>
                     </NavLink>
-                    <button type="button" aria-label="notifications" className="cursor-pointer flex flex-col justify-center items-center hover:text-slate-200 hover:underline duration-200">
+                    <button type="button" aria-label="notifications" className="cursor-pointer flex flex-col justify-center items-center hover:underline duration-200">
                         <Bell size={20} />
                         <h1 className='text-md sm:text-lg'>Notifications</h1>
                     </button>
-                    <button type="button" className="text-md cursor-pointer flex flex-col justify-center items-center transition-all hover:text-slate-200 hover:underline duration-200" onClick={() => handleOpen(1)}>
+                    <button type="button" className="text-md cursor-pointer flex flex-col justify-center items-center transition-all  hover:underline duration-200" onClick={() => handleOpen(1)}>
                         <Ellipsis size={20} />
                         <h1 className="text-md sm:text-lg">More</h1>
                     </button>
                 </ul>
                 <div className="hidden sm:flex justify-center items-center ">
                     {!isLoading && user ? (
-                        <button className=' items-center justify-center border border-white w-8 h-8 rounded-full bg-slate-700 hidden sm:flex' onClick={() => handleOpen(0)}>
+                        <button className=' items-center justify-center border border-white w-8 h-8 rounded-full bg-slate-300 hidden sm:flex' onClick={() => handleOpen(0)}>
                             <span className="cursor-pointer">{user.name.slice(0, 2).toUpperCase()}</span>
                         </button>
                     ) : (
@@ -107,7 +107,7 @@ const Navbar = () => {
 
             <AnimatePresence>
                 {open && (
-                    <motion.nav ref={moreRef} variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }} className='absolute top-15 left-0 w-full bg-white/10 backdrop-blur-md  shadow-lg shadow-black/10 text-white'>
+                    <motion.nav ref={moreRef} variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }} className='absolute top-15 left-0 w-full bg-white/10 backdrop-blur-md  shadow-lg shadow-black/10 text-black'>
                         <section className='px-5 hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 justify-items-center mt-10 mb-10'>
                             <motion.div variants={children} className='space-y-4 mb-7'>
                                 <h2 className='text-md font-bold tracking-tighter' >Resources</h2>

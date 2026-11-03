@@ -131,7 +131,7 @@ const Profile = () => {
     <div className="flex flex-col justify-center px-4 py-5 sm:px-8 lg:px-20" id="profile">
       <div className="mx-auto flex w-full max-w-7xl flex-col px-0 sm:px-5">
         <div className="relative flex flex-col">
-          <img className='w-full h-60 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2019/11/30/18/18/course-4663835_1280.jpg"} alt="background-image" />
+          <img className='w-full h-60 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/11/08/18/07/house-9183941_1280.jpg"} alt="background-image" />
           <div className="absolute top-40 left-5 rounded-full bg-gray-300 w-40 h-40"></div>
 
         </div>
@@ -230,18 +230,18 @@ const Profile = () => {
             </div>
           </div>
         }
-        <div className="flex justify-between mt-20 rounded-lg p-5 bg-white/10 backdrop-blur-xl border-b border-white/20">
+        <div className="flex justify-between mt-20 rounded-lg p-5 bg-white/10 backdrop-blur-xl border border-black">
           {isLoading && <div className="flex justify-center items-center"><ClipLoader size={70} color="#123abc" /></div>}
           {!isLoading && !profile && <p className="mt-3 text-white">No profile information yet. Click the edit button above to add it.</p>}
           {profile && <>
             <div>
               <div className="mt-3 flex gap-1">
-                <p className="text-2xl font-semibold">{profile.firstName} {profile.lastName}</p>
+                <p className="text-2xl font-semibold text-slate-600">{profile.firstName} {profile.lastName}</p>
               </div>
               <div className="mt-3 flex flex-col gap-2">
-                <p className="text-md">{profile.organization}</p>
-                <p className="text-slate-200 text-sm">{countryList[profile.country] ?? profile.country}</p>
-                <p className="text-slate-200 text-sm">{profile.education}</p>
+                <p className="text-md text-slate-600">{profile.organization}</p>
+                <p className="text-slate-500 text-sm">{countryList[profile.country] ?? profile.country}</p>
+                <p className="text-slate-500 text-sm">{profile.education}</p>
               </div>
             </div>
           </>}
@@ -250,7 +250,7 @@ const Profile = () => {
           </button>
         </div>
 
-        <div className="mt-2 rounded-lg p-5 bg-white/10 backdrop-blur-xl border-b border-white/20">
+        <div className="mt-2 rounded-lg p-5 bg-white/10 backdrop-blur-xl border border-black">
           <div className="flex justify-between mb-5">
             <h1>About</h1>
             <button type="button" aria-label="Pencil-Edit" onClick={() => handleEdit(2)} disabled={isLoading}>

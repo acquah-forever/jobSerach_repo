@@ -95,9 +95,9 @@ const Jobs = () => {
   const navigate = useNavigate();
   const jobsPerPage = 5;
   const cardRef = useRef<HTMLDivElement>(null);
-  useOnClickOutside(cardRef,() => setOpen(null) );
+  useOnClickOutside(cardRef, () => setOpen(null));
   const appRef = useRef<HTMLFormElement>(null);
-  useOnClickOutside(appRef,() => setOpen(null) );
+  useOnClickOutside(appRef, () => setOpen(null));
 
 
 
@@ -225,18 +225,23 @@ const Jobs = () => {
 
   if (isError) {
     return (
-      <div className="flex flex-col justify-center items-center min-h-screen">
-        <span className="text-8xl">😔</span>
-        <p className="text-2xl">{error.message}</p>
-        <button className="cursor-pointer mt-4 bg-blue-500 text-white py-2 px-4 rounded" onClick={handleHome}>Back Home</button>
+      <div className="bg-white/10 backdrop-blur-xl min-h-screen w-full flex justify-center items-center px-4">
+        <div className="max-w-3xl w-full flex flex-col justify-center items-center  p-6 sm:p-10 rounded-xl">
+          <div className="py-7 flex flex-col justify-center items-center text-center">
+            <span className="text-6xl sm:text-7xl md:text-8xl text-black">Oops</span>
+            <p className="text-lg sm:text-xl md:text-2xl text- mt-7 wrap-break-wordbreak-word">{error.message}</p>
+            <button className="cursor-pointer mt-7 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-colors" onClick={handleHome}>Back Home</button>
+          </div>
+        </div>
       </div>
     )
   }
 
   return (
     <>
-      <motion.section variants={parent} initial="hidden" animate="visible" className="container mx-auto flex flex-col px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
-        <motion.form variants={children} className="flex items-center gap-2 border border-white max-w-xl w-full px-4 py-1 rounded-2xl"  >
+      <motion.section variants={parent} initial="hidden" animate="visible"
+       className="container mx-auto flex flex-col px-5 py-4 sm:px-10 sm:py-5 lg:px-15 bg-linear-to-br from-[#FBFAF7] via-[#F5F2EB] to-[#EBE6DB] mt-7 rounded-lg border border-black" id="/jobs">
+        <motion.form variants={children} className="flex items-center gap-2 border border-black max-w-xl w-full px-4 py-1 rounded-2xl"  >
           <Search size={20} />
           <input className="w-full outline-none" type="text" placeholder="Describe the job you want..." {...register("text")} />
           <button className="cursor-pointer" type="button" aria-label="Delete Text" onClick={() => reset({ text: "" })}>
@@ -337,21 +342,21 @@ const Jobs = () => {
                 :
                 (
                   paginatedJobs?.map((item) => (
-                    <button key={item._id} className="bg-white/10 backdrop-blur-2xl cursor-pointer text-start p-3 rounded-lg mb-4 hover:scale-105 duration-180 w-75 sm:w-70 md:w-80 lg-100 " type="button" onClick={() => handleSelect(item._id)}>
+                    <button key={item._id} className="bg-slate-200 backdrop-blur-2xl cursor-pointer text-start p-3 rounded-lg mb-4 hover:scale-105 duration-180 w-75 sm:w-70 md:w-80 lg-100 " type="button" onClick={() => handleSelect(item._id)}>
                       <img className=" h-15 w-15 object-cover rounded-full" src={item.imageUrl} alt="company logo" />
-                      <h1 className="text-lg sm:text-xl text-sky-200">{item.jobTitle}</h1>
-                      <p className="text-sm text-white">{item.company}</p>
-                      <p className="text-sm text-white">{item.jobLocation}</p>
+                      <h1 className="text-lg sm:text-xl text-sky-600">{item.jobTitle}</h1>
+                      <p className="text-sm text-slate-600">{item.company}</p>
+                      <p className="text-sm text-slate-600">{item.jobLocation}</p>
                     </button>
                   ))
                 )}
 
-              <div className=' space-x-2 mt-4 '>
-                <button type='button' className='bg-slate-700 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md'
+              <div className=' space-x-2 mt-4 text-white'>
+                <button type='button' className='bg-slate-400 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md'
                   disabled={page === 1}
                   onClick={handlePrevious} >Previous Page</button>
 
-                <button type='button' className='bg-slate-700 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md'
+                <button type='button' className='bg-slate-400 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md'
                   disabled={page === totalPages}
                   onClick={handleNext} >Next Page</button>
               </div>
@@ -364,21 +369,19 @@ const Jobs = () => {
                   <div className='mb-5'>
                     <img className='w-full h-107 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/04/05/05/17/business-8676529_1280.jpg"} alt="job?_imageUrl" />
                   </div>
-                  <h1 className="text-2xl font-semibold mb-3 text-sky-200">
-                    {job?.jobTitle}
-                  </h1>
-                  <p className='text-white'>{job?.company}</p>
-                  <p className='text-white'>{job?.jobLocation}</p>
+                  <h1 className="text-2xl font-semibold mb-3 text-sky-500">{job?.jobTitle}</h1>
+                  <p className='text-slate-500'>{job?.company}</p>
+                  <p className='text-slate-500'>{job?.jobLocation}</p>
 
                   <div className="flex space-x-2 items-center mt-2 mb-2">
-                    <span className="border px-4 py-1 rounded-full font-semibold text-sm text-white">{job?.employmentType}</span>
-                    <span className="border px-4 py-1 rounded-full font-semibold text-sm text-white">{job?.experienceLevel}</span>
+                    <span className="border px-4 py-1 rounded-full font-semibold text-sm text-slate-500">{job?.employmentType}</span>
+                    <span className="border px-4 py-1 rounded-full font-semibold text-sm text-slate-500">{job?.experienceLevel}</span>
                   </div>
                   <button className="mb-4 border cursor-pointer rounded-full px-4 py-1 bg-sky-600 text-white" onClick={handleApply}>Apply</button>
-                  <h1 className="font-semibold underline text-white">Requirements</h1>
-                  <motion.p variants={children} className="text-sm text-white">{job?.requirements}</motion.p>
-                  <h1 className="font-semibold mt-4 underline text-white">About This Job</h1>
-                  <motion.p variants={children} className="text-sm text-white">{job?.jobDescription}</motion.p>
+                  <h1 className="font-semibold underline text-slate-500">Requirements</h1>
+                  <motion.p variants={children} className="text-sm text-slate-500">{job?.requirements}</motion.p>
+                  <h1 className="font-semibold mt-4 underline text-slate-500">About This Job</h1>
+                  <motion.p variants={children} className="text-sm text-slate-500">{job?.jobDescription}</motion.p>
                 </motion.div>
 
               </div>

@@ -15,7 +15,7 @@ const Hero = () => {
     return (
 
 <div className="relative min-h-screen w-full overflow-hidden bg-[url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D')] bg-cover bg-center bg-no-repeat bg-fixed max-md:bg-scroll">
-    <div className="absolute inset-0 bg-black/50"></div>
+    <div className="absolute inset-0 bg-black/30"></div>
     <motion.div variants={parent} initial="hidden" animate="visible" className="relative z-10 flex min-h-screen w-full flex-col justify-center items-center text-center px-4 py-16 sm:px-6 md:px-8 lg:px-16">
         <motion.h1 variants={children} className="mt-4 mb-4 w-full text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold leading-tight text-white">
             <span className="block">Finding Your Dream</span>
