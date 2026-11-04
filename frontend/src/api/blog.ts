@@ -3,7 +3,6 @@ if (!API_URL) throw new Error("VITE_API_URL is not set");
 
 export interface Blog {
     _id: string,
-    imageUrl: string,
     section: string,
     title: string,
     blurb: string,
@@ -12,7 +11,6 @@ export interface Blog {
     body3: string,
     body4: string,
     body5: string,
-    body6: string,
 }
 
 export async function getBlogs(): Promise<Blog[]> {
