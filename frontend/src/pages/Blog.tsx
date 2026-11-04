@@ -2,9 +2,14 @@ import { useState } from 'react'
 import { useBlogs, useBlog } from '../authContext/useAuth5'
 import { useRef } from 'react';
 import { useOnClickOutside } from "usehooks-ts";
-import { User, Heart } from 'lucide-react'
+import { User, Heart, X, MessageCircle } from 'lucide-react'
+
 
 const Blog = () => {
+  const [text, setText] = useState<string>("");
+  const [comments, setComments] = useState<string[]>([]);
+  const [count, setCount] = useState<Record<string, number>>({});
+  const [open, setOpen] = useState<boolean>(false)
   const { data: blogs, isLoading } = useBlogs();
   const [selectedBlog, setSelectedJob] = useState<string | null>(null);
   const { data: blog } = useBlog(selectedBlog);
@@ -14,6 +19,22 @@ const Blog = () => {
   function handleClick(blogId: string) {
     setSelectedJob(blogId)
   };
+
+  function handleCount(blogId: string) {
+    setCount((prev) => ({ ...prev, [blogId]: (prev[blogId] ?? 0) + 1 }))
+  }
+
+  function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+    event.preventDefault();
+    setText(event.target.value);
+  }
+
+  function handleSubmit() {
+    if (!text.trim()) return;
+
+    setComments((prevComments) => [...prevComments, text.trim()]);
+    setText('');
+  }
 
   return (
     <div className="min-h-screen w-full px-4 py-7  sm:px-6 lg:px-8 bg-linear-to-br from-[#FBFAF7] via-[#F5F2EB] to-[#EBE6DB]">
@@ -31,7 +52,8 @@ const Blog = () => {
                   <button className="btn btn-soft btn-secondary border-black" onClick={() => handleClick(item._id)}>Read More</button>
                 </div>
                 <div className='absolute bottom-4 right-4 flex justify-end'>
-                  <Heart size={30} />
+                  <span className='text-sm'>{count[item._id]}</span>&nbsp;
+                  <Heart className='cursor-pointer aria-label:like' onClick={() => handleCount(item._id)} size={30} />
                 </div>
               </div>
             </div>
@@ -61,12 +83,28 @@ const Blog = () => {
               <p className='italic mb-4'>{blog?.body4}</p>
               <p className='italic mb-4'>{blog?.body5}</p>
             </div>
+            <div className='px-8'>
+              <MessageCircle className='cursor-pointer' size={27} />
+            </div>
+            <div className='mt-4 px-8'>
+              <p className='text-sm mb-2'>Comment</p>
+              <textarea className='w-full border border-black rounded-lg p-2' rows={2} value={text} onChange={handleChange} placeholder='Write a comment...'></textarea>
+              <div className='flex justify-end'>
+                <button className='btn btn-primary mt-2 ' onClick={handleSubmit}>Submit</button>
+              </div>
+            </div>
 
+
+            <div className='px-8'>
+              {comments.map((item, index) => (
+                <div className=' p-2 flex justify-between mb-4' key={index}>
+                  <p>{item}</p>
+                  <X className='cursor-pointer' size={17} />
+                </div>
+              ))}
+            </div>
           </div>
-
-
         </div>
-
       )}
     </div>
   )
