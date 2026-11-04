@@ -9,6 +9,7 @@ import applicationRouter from "./routes/application"
 import aboutRouter from "./routes/about"
 import blogRouter from "./routes/blog"
 import supportRouter from "./routes/support"
+import commentRouter from "./routes/comment"
 import session from "express-session";
 import env from "./util/validateEnv";
 import mongoose from "mongoose";
@@ -61,8 +62,7 @@ app.use("/api/application", applicationRouter);
 app.use("/api/about", aboutRouter);
 app.use("/api/blog", blogRouter);
 app.use("/api/support", supportRouter);
-
-
+app.use("/api/comment", commentRouter);
 
 
 app.use((req, res, next) => {
