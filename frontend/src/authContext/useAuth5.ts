@@ -16,7 +16,9 @@ export function useBlog(blogId: string | null) {
     return useQuery({
         queryKey: ['blog', blogId],
         queryFn: () => getBlog(blogId),
-        refetchOnWindowFocus: false
+        retry:false,
+        refetchOnWindowFocus: false,
+        enabled: Boolean(blogId)
 
     })
 }

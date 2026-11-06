@@ -1,8 +1,10 @@
 import { model, InferSchemaType, Schema } from "mongoose";
 
 const commentSchema = new Schema({
-    comment: {type:String, required:true, trim:true}
-})
+    blog: {type: Schema.Types.ObjectId, ref:"Blog", required:true},
+    comment: {type:String, required:true}
+},
+{timestamps: true})
 
 type Comment = InferSchemaType <typeof commentSchema>
 
