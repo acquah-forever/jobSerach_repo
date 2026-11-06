@@ -232,7 +232,7 @@ const Profile = () => {
         }
         <div className="flex justify-between mt-20 rounded-lg p-5 bg-white/10 backdrop-blur-xl border border-black">
           {isLoading && <div className="flex justify-center items-center"><ClipLoader size={70} color="#123abc" /></div>}
-          {!isLoading && !profile && <p className="mt-3 text-white">No profile information yet. Click the edit button above to add it.</p>}
+          {!isLoading && !profile && <p className="mt-3 text-slate-600">No profile information yet. Click the edit button above to add it.</p>}
           {profile && <>
             <div>
               <div className="mt-3 flex gap-1">
@@ -258,7 +258,7 @@ const Profile = () => {
             </button>
           </div>
           {aboutLoading && <div className="flex justify-center items-center"><ClipLoader size={70} color="#123abc" /></div>}
-          {!aboutLoading && !info && <p className="mt-3 text-white">No "About" details yet. Click the edit button above to add it.</p>}
+          {!aboutLoading && !info && <p className="mt-3 text-slate-600">No "About" details yet. Click the edit button above to add it.</p>}
 
           {info &&
             <p className="text-sm text-wrap">{info.about}</p>}

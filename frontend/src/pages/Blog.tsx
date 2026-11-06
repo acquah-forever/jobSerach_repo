@@ -1,15 +1,17 @@
-import { useState } from 'react'
-import { useBlogs, useBlog } from '../authContext/useAuth5'
+import { useState } from 'react';
+import { useBlogs, useBlog } from '../authContext/useAuth5';
 import { useRef } from 'react';
 import { useOnClickOutside } from "usehooks-ts";
-import { User, Heart, X, MessageCircle } from 'lucide-react'
+import { User, Heart, X, MessageCircle } from 'lucide-react';
+import { useCreateComment } from '../authContext/useAuth7';
 
 
 const Blog = () => {
+  const { mutate, isPending } = useCreateComment()
   const [text, setText] = useState<string>("");
   const [comments, setComments] = useState<string[]>([]);
   const [count, setCount] = useState<Record<string, number>>({});
-  const [open, setOpen] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false);
   const { data: blogs, isLoading } = useBlogs();
   const [selectedBlog, setSelectedJob] = useState<string | null>(null);
   const { data: blog } = useBlog(selectedBlog);
@@ -22,19 +24,31 @@ const Blog = () => {
 
   function handleCount(blogId: string) {
     setCount((prev) => ({ ...prev, [blogId]: (prev[blogId] ?? 0) + 1 }))
-  }
+  };
 
   function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     event.preventDefault();
     setText(event.target.value);
-  }
+  };
 
   function handleSubmit() {
-    if (!text.trim()) return;
+    const newComment = text.trim();
+    if (!newComment) return;
 
-    setComments((prevComments) => [...prevComments, text.trim()]);
-    setText('');
-  }
+    mutate(
+      { comment: newComment },
+      {
+        onSuccess: () => {
+          setComments((prevComments) => [...prevComments, newComment]);
+          setText('');
+          setOpen(false)
+        }
+      })
+  };
+
+  function handleMessage() {
+    setOpen(prev => !prev)
+  };
 
   return (
     <div className="min-h-screen w-full px-4 py-7  sm:px-6 lg:px-8 bg-linear-to-br from-[#FBFAF7] via-[#F5F2EB] to-[#EBE6DB]">
@@ -84,16 +98,20 @@ const Blog = () => {
               <p className='italic mb-4'>{blog?.body5}</p>
             </div>
             <div className='px-8'>
-              <MessageCircle className='cursor-pointer' size={27} />
-            </div>
-            <div className='mt-4 px-8'>
-              <p className='text-sm mb-2'>Comment</p>
-              <textarea className='w-full border border-black rounded-lg p-2' rows={2} value={text} onChange={handleChange} placeholder='Write a comment...'></textarea>
-              <div className='flex justify-end'>
-                <button className='btn btn-primary mt-2 ' onClick={handleSubmit}>Submit</button>
-              </div>
+              <MessageCircle className='cursor-pointer' onClick={handleMessage} size={27} />
             </div>
 
+            {
+              open && (
+                <div className='px-8'>
+                  <textarea className='w-full border border-black rounded-lg p-2' rows={2} value={text} onChange={handleChange} placeholder='Write a comment...'></textarea>
+                  <div className='flex justify-end'>
+                    <button className='btn btn-primary mt-2 ' disabled={isPending || !text.trim()} onClick={handleSubmit}>{isPending ? 'Submitting' : 'Submit'}</button>
+                  </div>
+                </div>
+
+              )
+            }
 
             <div className='px-8'>
               {comments.map((item, index) => (
