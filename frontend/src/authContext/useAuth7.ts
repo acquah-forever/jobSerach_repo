@@ -1,4 +1,4 @@
-import{ useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { type CommentInput, createComment } from '../api/comment'
 
 export function useCreateComment() {
@@ -6,9 +6,11 @@ export function useCreateComment() {
 
     return useMutation({
         mutationFn: (data: CommentInput) => createComment(data),
-        
-        onSuccess: (newComment) => {
-            queryClient.setQueryData(['comment'], newComment)
+
+        onSuccess: (_newComment, variables) => {
+            queryClient.invalidateQueries({
+                queryKey: ['blog', variables.blogId]
+            })
         }
     })
 }

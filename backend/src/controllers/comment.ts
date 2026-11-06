@@ -12,11 +12,11 @@ export const createComment: RequestHandler<unknown, unknown, CommentInput, unkno
         const validateData = commentSchema.parse(req.body);
         const { blogId, comment } = validateData;
 
-        const blog = await Blog.findById(blogId);
-
-                if (!mongoose.isValidObjectId(blogId)) {
-            throw createHttpError(400, "Invalid blog Id");
+        if (!mongoose.isValidObjectId(blogId)) {
+        throw createHttpError(400, "Invalid blog Id");
         }
+
+        const blog = await Blog.findById(blogId);
 
         if (!blog) {
             throw createHttpError(404, "Blog not found");

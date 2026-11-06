@@ -9,17 +9,16 @@ import { useCreateComment } from '../authContext/useAuth7';
 const Blog = () => {
   const { mutate, isPending } = useCreateComment()
   const [text, setText] = useState<string>("");
-  const [comments, setComments] = useState<string[]>([]);
   const [count, setCount] = useState<Record<string, number>>({});
   const [open, setOpen] = useState<boolean>(false);
   const { data: blogs, isLoading } = useBlogs();
-  const [selectedBlog, setSelectedJob] = useState<string | null>(null);
+  const [selectedBlog, setSelectedBlog] = useState<string | null>(null);
   const { data: blog } = useBlog(selectedBlog);
   const blogRef = useRef<HTMLDivElement>(null);
-  useOnClickOutside(blogRef, () => setSelectedJob(null));
+  useOnClickOutside(blogRef, () => setSelectedBlog(null));
 
   function handleClick(blogId: string) {
-    setSelectedJob(blogId)
+    setSelectedBlog(blogId)
   };
 
   function handleCount(blogId: string) {
@@ -33,13 +32,15 @@ const Blog = () => {
 
   function handleSubmit() {
     const newComment = text.trim();
-    if (!newComment) return;
+    if (!newComment || !selectedBlog) return;
 
     mutate(
-      { comment: newComment },
+      {
+        blogId: selectedBlog,
+        comment: newComment
+      },
       {
         onSuccess: () => {
-          setComments((prevComments) => [...prevComments, newComment]);
           setText('');
           setOpen(false)
         }
@@ -112,14 +113,23 @@ const Blog = () => {
 
               )
             }
-
             <div className='px-8'>
-              {comments.map((item, index) => (
-                <div className=' p-2 flex justify-between mb-4' key={index}>
-                  <p>{item}</p>
-                  <X className='cursor-pointer' size={17} />
-                </div>
-              ))}
+              <h1 className='font-semibold mb-2'>Comments</h1>
+
+              {blog?.comments?.length > 0 ? (
+                blog.comments.map((item, index) => (
+                  <div
+                    className='p-2 flex justify-between mb-4 border-b border-black'
+                    key={item._id ?? index}
+                  >
+                    <p>{item.comment}</p>
+
+                    <X className='cursor-pointer' size={17} />
+                  </div>
+                ))
+              ) : (
+                <p className='text-sm text-gray-500'>No comments yet.</p>
+              )}
             </div>
           </div>
         </div>

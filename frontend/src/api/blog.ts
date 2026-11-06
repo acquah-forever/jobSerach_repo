@@ -11,6 +11,12 @@ export interface Blog {
     body3: string,
     body4: string,
     body5: string,
+    comments: {
+        _id: string,
+        comment: string,
+        createdAt: string,
+        updatedAt: string
+    }[]
 }
 
 export async function getBlogs(): Promise<Blog[]> {
