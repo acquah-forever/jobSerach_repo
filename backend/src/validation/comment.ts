@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const commentSchema = z.object({
+export const commentSchema = z.object({
     comment: z.string().trim().min(1)
 });
 

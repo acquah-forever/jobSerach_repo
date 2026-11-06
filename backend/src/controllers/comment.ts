@@ -1,7 +1,7 @@
 import Comment from '../models/comment';
 import { RequestHandler } from 'express';
 import createHttpError from 'http-errors';
-import  {commentSchema } from '../validation/comment';
+import { commentSchema } from '../validation/comment';
 import { ZodError } from 'zod';
 
 interface CommentValue {
