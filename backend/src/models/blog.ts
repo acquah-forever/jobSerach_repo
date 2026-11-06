@@ -9,7 +9,6 @@ const blogSchema = new Schema({
     body3: {type: String, required: true, trim:true},
     body4: {type: String, required: true, trim:true},
     body5: {type: String, required: true, trim:true},
-
 },{timestamps:true});
 
 type Blog = InferSchemaType<typeof blogSchema>;
