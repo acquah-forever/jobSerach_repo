@@ -27,10 +27,6 @@ export const createComment: RequestHandler<unknown, unknown, CommentInput, unkno
             comment
         });
 
-        if (!newComment) {
-            throw createHttpError(400, "Unable to create comment. Try again later");
-        };
-
         res.status(201).json(newComment);
 
     }
@@ -39,6 +35,27 @@ export const createComment: RequestHandler<unknown, unknown, CommentInput, unkno
             return next(createHttpError(400, "Invalid comment data"));
         }
 
+        next(error);
+    }
+};
+
+export const deleteComment: RequestHandler = async (req, res, next) => {
+    try {
+        const { commentId } = req.params;
+
+        if (!mongoose.isValidObjectId(commentId)) {
+            throw createHttpError(400, "Invalid comment Id");
+        }
+
+        const deletedComment = await Comment.findByIdAndDelete(commentId);
+
+        if (!deletedComment) {
+            throw createHttpError(404, "Comment not found");
+        }
+
+        res.sendStatus(204);
+    }
+    catch (error) {
         next(error);
     }
 };
