@@ -5,6 +5,7 @@ export function useAbout() {
     return useQuery({
         queryKey: ["about"],
         queryFn: getAbout,
+        retry: false,
         refetchOnWindowFocus: false
     })
 }

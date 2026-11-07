@@ -2,6 +2,7 @@ import { model, InferSchemaType, Schema } from "mongoose";
 
 const commentSchema = new Schema({
     blog: {type: Schema.Types.ObjectId, ref:"Blog", required:true},
+    user: {type: Schema.Types.ObjectId, ref:"User", required:true},
     comment: {type:String, required:true}
 },
 {timestamps: true})

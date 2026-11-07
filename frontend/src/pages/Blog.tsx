@@ -2,27 +2,30 @@ import { useState } from 'react';
 import { useBlogs, useBlog } from '../authContext/useAuth5';
 import { useRef } from 'react';
 import { useOnClickOutside } from "usehooks-ts";
-import { User, Heart, X, MessageCircle } from 'lucide-react';
-import { useCreateComment } from '../authContext/useAuth7';
+import { User, X, MessageCircle } from 'lucide-react';
+import { useCreateComment, useDeleteComment } from '../authContext/useAuth7';
+import { useAuthenticatedUser } from "../authContext/useAuth";
+import { useNavigate } from "react-router-dom";
+
+
 
 
 const Blog = () => {
-  const { mutate, isPending } = useCreateComment()
+      const { data: user } = useAuthenticatedUser();
+  const { mutate, isPending } = useCreateComment();
+  const { mutate: deleteComment, isPending: deleteIsPending } = useDeleteComment();
   const [text, setText] = useState<string>("");
-  const [count, setCount] = useState<Record<string, number>>({});
   const [open, setOpen] = useState<boolean>(false);
   const { data: blogs, isLoading } = useBlogs();
   const [selectedBlog, setSelectedBlog] = useState<string | null>(null);
   const { data: blog } = useBlog(selectedBlog);
   const blogRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(blogRef, () => setSelectedBlog(null));
+    const navigate = useNavigate();
+
 
   function handleClick(blogId: string) {
     setSelectedBlog(blogId)
-  };
-
-  function handleCount(blogId: string) {
-    setCount((prev) => ({ ...prev, [blogId]: (prev[blogId] ?? 0) + 1 }))
   };
 
   function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -47,8 +50,24 @@ const Blog = () => {
       })
   };
 
+
+  const handleDeletion = (commentId: string) => {
+    deleteComment(
+      {
+      commentId,
+      blogId: blogId
+    });
+  };
+
   function handleMessage() {
-    setOpen(prev => !prev)
+    if(!user) {
+      navigate('/login')
+
+    } else {
+
+      setOpen(prev => !prev)
+    }
+
   };
 
   return (
@@ -65,10 +84,6 @@ const Blog = () => {
                 <p className="text-sm sm:text-base text-wrap">{item.blurb}</p>
                 <div className="mt-6 flex justify-start">
                   <button className="btn btn-soft btn-secondary border-black" onClick={() => handleClick(item._id)}>Read More</button>
-                </div>
-                <div className='absolute bottom-4 right-4 flex justify-end'>
-                  <span className='text-sm'>{count[item._id]}</span>&nbsp;
-                  <Heart className='cursor-pointer aria-label:like' onClick={() => handleCount(item._id)} size={30} />
                 </div>
               </div>
             </div>
@@ -115,16 +130,14 @@ const Blog = () => {
             }
             <div className='px-8'>
               <h1 className='font-semibold mb-2'>Comments</h1>
-
               {blog?.comments?.length > 0 ? (
                 blog.comments.map((item, index) => (
-                  <div
-                    className='p-2 flex justify-between mb-4 border-b border-black'
-                    key={item._id ?? index}
-                  >
+                  <div className='p-2 flex justify-between mb-4 border-b border-black' key={item._id ?? index}>
+                    <p className='italic'>{user.name}</p>
                     <p>{item.comment}</p>
-
-                    <X className='cursor-pointer' size={17} />
+                    <button className='cursor-pointer disabled:opacity-50' aria-label="Delete comment" disabled={deleteIsPending}>
+                      <X className='cursor-pointer' onClick={() => handleDeletion(item._id)} size={17} />
+                    </button>
                   </div>
                 ))
               ) : (

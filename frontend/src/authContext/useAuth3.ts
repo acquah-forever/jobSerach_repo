@@ -10,10 +10,6 @@ export function useCreateApplication() {
         onSuccess: (newApplication) => {
             queryClient.setQueryData(["application"], newApplication)
 
-        },
-
-        onError: (error) => {
-            console.error("CREATE APPLICATION ERROR:", error)
-        },
+        }
     })
 }

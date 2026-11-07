@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL.trim();
+const API_URL = import.meta.env.VITE_API_URL?.trim();
 if (!API_URL) throw new Error("VITE_API_URL is not set");
 
 export interface Blog {
@@ -6,36 +6,36 @@ export interface Blog {
     section: string,
     title: string,
     blurb: string,
-    body1: string,
-    body2: string,
-    body3: string,
-    body4: string,
-    body5: string,
+    body: string[],
     comments: {
         _id: string,
         comment: string,
         createdAt: string,
-        updatedAt: string
+        updatedAt: string,
+        user: {
+            _id: string,
+            name: string
+        }
     }[]
 }
 
 export async function getBlogs(): Promise<Blog[]> {
+
     const response = await fetch(`${API_URL}/blog`)
 
-    if (!response.ok) {
-        throw new Error("Failed to Fetch blogs. Please try again later");
-    }
+    if (!response.ok) throw new Error("Failed to fetch blogs");
+    
     return response.json() as Promise<Blog[]>;
 
 }
 
 
 export async function getBlog(blogId: string): Promise<Blog> {
+
     const response = await fetch(`${API_URL}/blog/${blogId}`)
 
-    if (!response.ok) {
-        throw new Error("Failed to Fetch blog. Please try again later");
-    }
+    if (!response.ok) throw new Error("Failed to fetch blog");
+    
     return response.json() as Promise<Blog>;
 
 }
