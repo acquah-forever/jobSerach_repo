@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL.trim();
+const API_URL = import.meta.env.VITE_API_URL?.trim();
 if (!API_URL) throw new Error("VITE_API_URL is not set");
 
 export interface Blog {
@@ -6,11 +6,7 @@ export interface Blog {
     section: string,
     title: string,
     blurb: string,
-    body1: string,
-    body2: string,
-    body3: string,
-    body4: string,
-    body5: string,
+    body: string[],
     comments: {
         _id: string,
         comment: string,
