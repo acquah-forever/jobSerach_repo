@@ -16,22 +16,22 @@ export interface Blog {
 }
 
 export async function getBlogs(): Promise<Blog[]> {
+
     const response = await fetch(`${API_URL}/blog`)
 
-    if (!response.ok) {
-        throw new Error("Failed to Fetch blogs. Please try again later");
-    }
+    if (!response.ok) throw new Error("Failed to fetch blogs");
+    
     return response.json() as Promise<Blog[]>;
 
 }
 
 
 export async function getBlog(blogId: string): Promise<Blog> {
+
     const response = await fetch(`${API_URL}/blog/${blogId}`)
 
-    if (!response.ok) {
-        throw new Error("Failed to Fetch blog. Please try again later");
-    }
+    if (!response.ok) throw new Error("Failed to fetch blog");
+    
     return response.json() as Promise<Blog>;
 
 }

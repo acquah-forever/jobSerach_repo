@@ -2,16 +2,17 @@ const API_URL = import.meta.env.VITE_API_URL?.trim();
 if(!API_URL) throw new Error("VITE_API_URL is not set");
 
 interface CommentValue {
-    id: string,
+    _id: string,
     blogId: string,
     comment: string,
     createdAt: string,
     updatedAt: string
 };
 
-export type CommentInput = Omit<CommentValue, |'id' |'createdAt' | 'updatedAt'>
+export type CommentInput = Omit<CommentValue, |'_id' |'createdAt' | 'updatedAt'>
 
-export async function createComment(data: CommentInput) {
+export async function createComment(data: CommentInput): Promise<CommentValue> {
+
     const response = await fetch(`${API_URL}/comment`, {
         method: "POST",
         headers: {
@@ -20,11 +21,19 @@ export async function createComment(data: CommentInput) {
         body: JSON.stringify(data)
     });
     
-    const responseData = await response.json();
 
-    if (!response.ok) {
-        throw new Error(responseData.message || "Comment cannot be created");
-    }
+    if (!response.ok) throw new Error("Comment cannot be created");
 
-    return response.json()
+    return response.json() as Promise<CommentValue>;
+};
+
+
+export async function deleteComment(commentId: string): Promise<void> {
+
+    const response = await fetch(`${API_URL}/comment/${commentId}`, {
+        method: "DELETE"
+    });
+
+    if (!response.ok) throw new Error("Unable to delete comment. Please try again later");
+
 };
