@@ -22,7 +22,9 @@ export const getBlog: RequestHandler = async (req, res, next) => {
             throw createHttpError(400, "Invalid blog Id");
         }
 
-        const blog = await Blog.findById(blogId).populate('comments');
+        const blog = await Blog.findById(blogId).populate({
+        path: 'comments',
+        populate: { path: 'user',select: 'name'}});
 
         if (!blog) {
             throw createHttpError(404, "Blog not found");
