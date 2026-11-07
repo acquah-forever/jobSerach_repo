@@ -11,6 +11,7 @@ export const createComment: RequestHandler<unknown, unknown, CommentInput, unkno
     try {
         const userId = req.session.userId;
 
+
     if (!userId) {
     throw createHttpError(401, "You must be logged in to comment");
     }
