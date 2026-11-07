@@ -133,6 +133,7 @@ const Blog = () => {
               {blog?.comments?.length > 0 ? (
                 blog.comments.map((item, index) => (
                   <div className='p-2 flex justify-between mb-4 border-b border-black' key={item._id ?? index}>
+                    <p className='italic'>{user.name}</p>
                     <p>{item.comment}</p>
                     <button className='cursor-pointer disabled:opacity-50' aria-label="Delete comment" disabled={deleteIsPending}>
                       <X className='cursor-pointer' onClick={() => handleDeletion(item._id)} size={17} />

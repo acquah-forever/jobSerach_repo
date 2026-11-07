@@ -15,6 +15,7 @@ export async function createComment(data: CommentInput): Promise<CommentValue> {
 
     const response = await fetch(`${API_URL}/comment`, {
         method: "POST",
+        credentials: "include",
         headers: {
             "Content-Type" : "application/json"
         },

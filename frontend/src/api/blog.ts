@@ -11,7 +11,11 @@ export interface Blog {
         _id: string,
         comment: string,
         createdAt: string,
-        updatedAt: string
+        updatedAt: string,
+        user: {
+            _id: string,
+            name: string
+        }
     }[]
 }
 
