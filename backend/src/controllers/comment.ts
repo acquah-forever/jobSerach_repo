@@ -14,9 +14,10 @@ export const createComment: RequestHandler<unknown, unknown, CommentInput, unkno
 
         if (!authenticatedUser) {
             throw createHttpError(401, "User not authenticated");
-            }
+        }
 
         const validateData = commentSchema.parse(req.body);
+
         const { blogId, comment } = validateData;
 
         if (!mongoose.isValidObjectId(blogId)) {
@@ -47,15 +48,15 @@ export const createComment: RequestHandler<unknown, unknown, CommentInput, unkno
     }
 };
 
-export const deleteComment: RequestHandler = async (req, res, next) => {
+export const deleteComment: RequestHandler<{ id: string }> = async (req, res, next) => {
     try {
-        const { commentId } = req.params.id;
+        const { id } = req.params;
 
-        if (!mongoose.isValidObjectId(commentId)) {
+        if (!mongoose.isValidObjectId(id)) {
             throw createHttpError(400, "Invalid comment Id");
         }
 
-        const deletedComment = await Comment.findByIdAndDelete(commentId);
+        const deletedComment = await Comment.findByIdAndDelete(id);
 
         if (!deletedComment) {
             throw createHttpError(404, "Comment not found");
