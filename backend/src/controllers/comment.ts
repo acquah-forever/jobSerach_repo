@@ -9,12 +9,13 @@ import mongoose from 'mongoose';
 
 export const createComment: RequestHandler<unknown, unknown, CommentInput, unknown> = async (req, res, next) => {
     try {
-        const userId = req.session.userId;
 
+        const authenticatedUser = req.session.userId;
 
-    if (!userId) {
-    throw createHttpError(401, "You must be logged in to comment");
-    }
+        if (!authenticatedUser) {
+            throw createHttpError(401, "User not authenticated");
+            }
+            
         const validateData = commentSchema.parse(req.body);
         const { blogId, comment } = validateData;
 
@@ -30,7 +31,7 @@ export const createComment: RequestHandler<unknown, unknown, CommentInput, unkno
 
         const newComment = await Comment.create({
             blog: blog._id,
-            user: userId,
+            user: authenticatedUser,
             comment
         });
 
