@@ -15,7 +15,7 @@ export const createComment: RequestHandler<unknown, unknown, CommentInput, unkno
         if (!authenticatedUser) {
             throw createHttpError(401, "User not authenticated");
             }
-            
+
         const validateData = commentSchema.parse(req.body);
         const { blogId, comment } = validateData;
 
@@ -49,7 +49,7 @@ export const createComment: RequestHandler<unknown, unknown, CommentInput, unkno
 
 export const deleteComment: RequestHandler = async (req, res, next) => {
     try {
-        const { commentId } = req.params;
+        const { commentId } = req.params.id;
 
         if (!mongoose.isValidObjectId(commentId)) {
             throw createHttpError(400, "Invalid comment Id");
