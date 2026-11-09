@@ -11,8 +11,8 @@ import { useNavigate } from "react-router-dom";
 
 
 const Blog = () => {
-      const { data: user } = useAuthenticatedUser();
-  const { mutate, isPending } = useCreateComment();
+  const { data: user } = useAuthenticatedUser();
+  const { mutate: createComment, isPending } = useCreateComment();
   const { mutate: deleteComment, isPending: deleteIsPending } = useDeleteComment();
   const [text, setText] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
@@ -21,7 +21,7 @@ const Blog = () => {
   const { data: blog } = useBlog(selectedBlog);
   const blogRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(blogRef, () => setSelectedBlog(null));
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
 
   function handleClick(blogId: string) {
@@ -37,7 +37,7 @@ const Blog = () => {
     const newComment = text.trim();
     if (!newComment || !selectedBlog) return;
 
-    mutate(
+    createComment(
       {
         blogId: selectedBlog,
         comment: newComment
@@ -52,15 +52,16 @@ const Blog = () => {
 
 
   const handleDeletion = (commentId: string) => {
-    deleteComment(
-      {
+    if (!selectedBlog) return;
+
+    deleteComment({
       commentId,
-      blogId: blogId
+      blogId: selectedBlog
     });
   };
 
   function handleMessage() {
-    if(!user) {
+    if (!user) {
       navigate('/login')
 
     } else {
@@ -107,11 +108,9 @@ const Blog = () => {
             <img className='w-full bg-cover bg-center bg-no-repeat bg-fixed' src="https://cdn.pixabay.com/photo/2015/01/08/18/29/entrepreneur-593361_1280.jpg" alt="image" />
 
             <div className='px-10'>
-              <p className='mb-7 italic '>{blog?.body1}</p>
-              <p className=' mb-4 italic'>{blog?.body2}</p>
-              <p className='italic mb-4'>{blog?.body3}</p>
-              <p className='italic mb-4'>{blog?.body4}</p>
-              <p className='italic mb-4'>{blog?.body5}</p>
+              {blog.body.map((paragraph, index) => (
+                <p key={index} className='italic mb-4'>{paragraph}</p>
+              ))}
             </div>
             <div className='px-8'>
               <MessageCircle className='cursor-pointer' onClick={handleMessage} size={27} />
@@ -131,13 +130,15 @@ const Blog = () => {
             <div className='px-8'>
               <h1 className='font-semibold mb-2'>Comments</h1>
               {blog?.comments?.length > 0 ? (
-                blog.comments.map((item, index) => (
-                  <div className='p-2 flex justify-between mb-4 border-b border-black' key={item._id ?? index}>
-                    <p className='italic'>{user.name}</p>
+                blog.comments.map((item) => (
+                  <div className='p-2 flex justify-between mb-4 border-b border-black' key={item._id}>
                     <p className='italic'>{item.user?.name ?? 'Unknown author'}</p>
-                    <button className='cursor-pointer disabled:opacity-50' aria-label="Delete comment" disabled={deleteIsPending}>
-                      <X className='cursor-pointer' onClick={() => handleDeletion(item._id)} size={17} />
+                    <p className='text-sm'>{item.comment}</p>
+                    {user?._id === item.user?._id && (
+                    <button className='cursor-pointer disabled:opacity-50' aria-label="Delete comment" disabled={deleteIsPending} onClick={() => handleDeletion(item._id)}>
+                      <X size={17} />
                     </button>
+                    )}
                   </div>
                 ))
               ) : (

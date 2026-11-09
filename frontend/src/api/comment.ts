@@ -5,7 +5,6 @@ interface CommentValue {
     _id: string,
     blogId: string,
     comment: string,
-    user: string
     createdAt: string,
     updatedAt: string
 };
