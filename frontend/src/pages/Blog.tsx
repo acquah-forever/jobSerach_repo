@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useBlogs, useBlog } from '../authContext/useAuth5';
 import { useRef } from 'react';
 import { useOnClickOutside } from "usehooks-ts";
-import { User, X, MessageCircle } from 'lucide-react';
+import { User,MessageCircle } from 'lucide-react';
 import { useCreateComment, useDeleteComment } from '../authContext/useAuth7';
 import { useAuthenticatedUser } from "../authContext/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -35,6 +35,7 @@ const Blog = () => {
 
   function handleSubmit() {
     const newComment = text.trim();
+
     if (!newComment || !selectedBlog) return;
 
     createComment(
@@ -71,6 +72,9 @@ const Blog = () => {
 
   };
 
+
+
+
   return (
     <div className="min-h-screen w-full px-4 py-7  sm:px-6 lg:px-8 bg-linear-to-br from-[#FBFAF7] via-[#F5F2EB] to-[#EBE6DB]">
       <div className="mx-auto grid w-full max-w-7xl grid-cols-1 justify-items-center gap-6 sm:grid-cols-2 xl:grid-cols-3">
@@ -81,8 +85,8 @@ const Blog = () => {
               <img src="https://cdn.pixabay.com/photo/2026/10/27/18/29/18-29-41-437_1280.jpg" alt="image" />
               <div className="card-body">
                 <span>{item.section}</span>
-                <h2 className="wrap-break-word text-base font-semibold sm:text-lg md:text-xl text-black">{item.title}</h2>
-                <p className="text-sm sm:text-base text-wrap">{item.blurb}</p>
+                <h2 className="wrap-break-word text-base font-semibold sm:text-lg md:text-xl text-black text-justify">{item.title}</h2>
+                <p className="text-sm sm:text-base text-justify">{item.blurb}</p>
                 <div className="mt-6 flex justify-start">
                   <button className="btn btn-soft btn-secondary border-black" onClick={() => handleClick(item._id)}>Read More</button>
                 </div>
@@ -107,9 +111,9 @@ const Blog = () => {
 
             <img className='w-full bg-cover bg-center bg-no-repeat bg-fixed' src="https://cdn.pixabay.com/photo/2015/01/08/18/29/entrepreneur-593361_1280.jpg" alt="image" />
 
-            <div className='px-10'>
-              {blog.body.map((paragraph, index) => (
-                <p key={index} className='italic mb-4'>{paragraph}</p>
+            <div className='px-5'>
+              {blog?.body?.split("\n\n").map((paragraph, index) => (
+                <p key={index} className="mb-4 text-justify leading-8 text-sm">{paragraph}</p>
               ))}
             </div>
             <div className='px-8'>
@@ -124,25 +128,29 @@ const Blog = () => {
                     <button className='btn btn-primary mt-2 ' disabled={isPending || !text.trim()} onClick={handleSubmit}>{isPending ? 'Submitting' : 'Submit'}</button>
                   </div>
                 </div>
-
               )
             }
             <div className='px-8'>
               <h1 className='font-semibold mb-2'>Comments</h1>
               {blog?.comments?.length > 0 ? (
-                blog.comments.map((item) => (
-                  <div className='p-2 flex justify-between mb-4 border-b border-black' key={item._id}>
-                    <p className='italic'>{item.user?.name ?? 'Unknown author'}</p>
-                    <p className='text-sm'>{item.comment}</p>
-                    {user?._id === item.user?._id && (
-                    <button className='cursor-pointer disabled:opacity-50' aria-label="Delete comment" disabled={deleteIsPending} onClick={() => handleDeletion(item._id)}>
-                      <X size={17} />
-                    </button>
-                    )}
-                  </div>
-                ))
+                blog.comments.map((item) => {
+                  return (
+                    <div className='p-2 flex justify-between space-x-5 items-center mb-4 border-b border-black' key={item._id}>
+                      <p className='text-sm'>{item.comment}</p>
+                      <div className='flex space-x-2 items-center'>
+                        <p className='italic text-sm'>{item.user?.name ?? 'Unknown author'}</p>
+                        {user?._id === item.user?._id && (
+                          <button className='cursor-pointer border-2 rounded-lg p-2 bg-red-500' aria-label="Delete comment" disabled={deleteIsPending} onClick={() => handleDeletion(item._id)}>
+                            <p className='text-sm text-justify text-white'>Delete</p>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                  )
+                })
               ) : (
-                <p className='text-sm text-gray-500'>No comments yet.</p>
+                <p className='text-sm text-gray-700'>No comments yet.</p>
               )}
             </div>
           </div>
