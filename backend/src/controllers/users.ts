@@ -5,8 +5,11 @@ import bcrypt from "bcrypt";
 import { loginSchema, usersSchema } from "../validation/users";
 import { ZodError } from "zod";
 
-function userResponse(user: { name: string; email: string }) {
+import { Types } from "mongoose";
+
+function userResponse(user: { _id: Types.ObjectId; name: string; email: string }) {
     return {
+        _id: user._id.toString(),
         name: user.name,
         email: user.email,
     };
@@ -17,7 +20,7 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
         const authenticatedUser = req.session.userId;
 
         if (!authenticatedUser) {
-            throw createHttpError(401, "User not authenticated");
+            throw createHttpError(400, "User not authenticated");
         }
         const user = await users.findById(authenticatedUser).select("+email").exec();
         if (!user) {
@@ -68,10 +71,10 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
             }
             req.session.userId = newUser._id.toString();
 
-            req.session.save((error) => {
-                if (error) {
-                    return next(error);
-                }
+        req.session.save((error) => {
+            if (error) 
+                return next(error);
+            }
                 res.status(201).json(userResponse(newUser));
             });
         });
@@ -102,12 +105,12 @@ export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (re
 
         const user = await users.findOne({ email }).select("+password").exec()
         if (!user) {
-            throw (createHttpError(401, "Invalid Credentials"))
+            throw (createHttpError(400, "Invalid Credentials"))
         }
 
         const passwordMatch = await bcrypt.compare(passwordRaw, user.password)
         if (!passwordMatch) {
-            throw (createHttpError(401, "Invalid Credentials"))
+            throw (createHttpError(400, "Invalid Credentials"))
         }
 
 
