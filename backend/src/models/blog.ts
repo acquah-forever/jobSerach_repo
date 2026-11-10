@@ -4,7 +4,7 @@ const blogSchema = new Schema({
     section: { type: String, required: true, trim: true },
     title: { type: String, required: true, trim: true },
     blurb: { type: String, required: true, trim: true },
-    body: [{ type: String, required: true, trim: true }]
+    body: { type: String, required: true, trim: true }
 }, {
     timestamps: true,
     toJSON: { virtuals: true },

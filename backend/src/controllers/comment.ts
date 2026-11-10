@@ -48,18 +48,28 @@ export const createComment: RequestHandler<unknown, unknown, CommentInput, unkno
     }
 };
 
-export const deleteComment: RequestHandler<{ id: string }> = async (req, res, next) => {
+
+export const deleteComment: RequestHandler<{ commentId: string }> = async (req, res, next) => {
     try {
-        const { id } = req.params;
+        const authenticatedUser = req.session.userId;
+
+        if (!authenticatedUser) {
+            throw createHttpError(401, "User not authenticated");
+        }
+
+        const { commentId: id } = req.params;
 
         if (!mongoose.isValidObjectId(id)) {
             throw createHttpError(400, "Invalid comment Id");
         }
 
-        const deletedComment = await Comment.findByIdAndDelete(id);
+        const deletedComment = await Comment.findOneAndDelete({
+            _id: id,
+            user: authenticatedUser
+        });
 
         if (!deletedComment) {
-            throw createHttpError(404, "Comment not found");
+            throw createHttpError(404, "Comment not found or you are not authorized to delete it");
         }
 
         res.sendStatus(204);

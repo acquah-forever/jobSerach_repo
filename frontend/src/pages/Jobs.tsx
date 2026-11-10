@@ -379,16 +379,16 @@ const Jobs = () => {
                   </div>
                   <button className="mb-4 border cursor-pointer rounded-full px-4 py-1 bg-sky-600 text-white" onClick={handleApply}>Apply</button>
                   <h1 className="font-semibold underline text-slate-500">Requirements</h1>
-                  <motion.p variants={children} className="text-sm text-slate-500">{job?.requirements}</motion.p>
+                  <motion.p variants={children} className="text-sm text-slate-500 text-justify leading-6">{job?.requirements}</motion.p>
                   <h1 className="font-semibold mt-4 underline text-slate-500">About This Job</h1>
-                  <motion.p variants={children} className="text-sm text-slate-500">{job?.jobDescription}</motion.p>
+                  <motion.p variants={children} className="text-sm text-slate-500 text-justify leading-6">{job?.jobDescription}</motion.p>
                 </motion.div>
 
               </div>
             }
 
             {open === 3 &&
-              <div className="fixed inset-0 z-50 flex border items-start justify-center overflow-y-scroll bg-black/40 backdrop-blur-xl p-4  sm:items-center sm:p-8 px-10 ">
+              <div className="fixed inset-0 z-50 flex border items-start justify-center overflow-y-scroll bg-black/40 backdrop-blur-xl p-4  sm:items-center sm:p-8 px-3 ">
                 <motion.form ref={appRef} variants={children} className="bg-white/10 backdrop-blur-2xl text-white p-4 my-auto w-full min-h-screen max-w-4xl rounded-lg " onSubmit={handleApplySubmit(onSubmit)}>
                   <div className="flex justify-between mb-2">
                     <h1 className="text-lg sm:text-2xl md:text-3xl">Apply for {job?.jobTitle}</h1>
@@ -396,7 +396,7 @@ const Jobs = () => {
                       <X className="cursor-pointer" size={22} />
                     </button>
                   </div>
-                  <h2 className="text-white text-xs sm:text-sm border-b border-b-gray-400">This application is for the {job?.jobTitle} role in {job?.jobLocation}. Please complete every required field.</h2>
+                  <h2 className="text-white text-xs sm:text-sm border-b border-b-gray-400 text-justify">This application is for the {job?.jobTitle} role in {job?.jobLocation}. Please complete every required field.</h2>
                   <div className="flex items-center gap-2 mt-4">
                     <p className="rounded-full bg-gray-300 w-5 h-5 text-center text-sm">1</p>
                     <p className="font-semibold text-sm sm:text-lg">Basic Infromation</p>

@@ -32,7 +32,8 @@ export async function createComment(data: CommentInput): Promise<CommentValue> {
 export async function deleteComment(commentId: string): Promise<void> {
 
     const response = await fetch(`${API_URL}/comment/${commentId}`, {
-        method: "DELETE"
+        method: "DELETE",
+        credentials: "include"
     });
 
     if (!response.ok) throw new Error("Unable to delete comment. Please try again later");

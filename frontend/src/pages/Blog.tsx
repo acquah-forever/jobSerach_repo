@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useBlogs, useBlog } from '../authContext/useAuth5';
 import { useRef } from 'react';
 import { useOnClickOutside } from "usehooks-ts";
-import { User, X, MessageCircle } from 'lucide-react';
+import { User,MessageCircle } from 'lucide-react';
 import { useCreateComment, useDeleteComment } from '../authContext/useAuth7';
 import { useAuthenticatedUser } from "../authContext/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -11,8 +11,8 @@ import { useNavigate } from "react-router-dom";
 
 
 const Blog = () => {
-      const { data: user } = useAuthenticatedUser();
-  const { mutate, isPending } = useCreateComment();
+  const { data: user } = useAuthenticatedUser();
+  const { mutate: createComment, isPending } = useCreateComment();
   const { mutate: deleteComment, isPending: deleteIsPending } = useDeleteComment();
   const [text, setText] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
@@ -21,7 +21,7 @@ const Blog = () => {
   const { data: blog } = useBlog(selectedBlog);
   const blogRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(blogRef, () => setSelectedBlog(null));
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
 
   function handleClick(blogId: string) {
@@ -35,9 +35,10 @@ const Blog = () => {
 
   function handleSubmit() {
     const newComment = text.trim();
+
     if (!newComment || !selectedBlog) return;
 
-    mutate(
+    createComment(
       {
         blogId: selectedBlog,
         comment: newComment
@@ -52,15 +53,16 @@ const Blog = () => {
 
 
   const handleDeletion = (commentId: string) => {
-    deleteComment(
-      {
+    if (!selectedBlog) return;
+
+    deleteComment({
       commentId,
-      blogId: blogId
+      blogId: selectedBlog
     });
   };
 
   function handleMessage() {
-    if(!user) {
+    if (!user) {
       navigate('/login')
 
     } else {
@@ -69,6 +71,9 @@ const Blog = () => {
     }
 
   };
+
+
+
 
   return (
     <div className="min-h-screen w-full px-4 py-7  sm:px-6 lg:px-8 bg-linear-to-br from-[#FBFAF7] via-[#F5F2EB] to-[#EBE6DB]">
@@ -80,8 +85,8 @@ const Blog = () => {
               <img src="https://cdn.pixabay.com/photo/2026/10/27/18/29/18-29-41-437_1280.jpg" alt="image" />
               <div className="card-body">
                 <span>{item.section}</span>
-                <h2 className="wrap-break-word text-base font-semibold sm:text-lg md:text-xl text-black">{item.title}</h2>
-                <p className="text-sm sm:text-base text-wrap">{item.blurb}</p>
+                <h2 className="wrap-break-word text-base font-semibold sm:text-lg md:text-xl text-black text-justify">{item.title}</h2>
+                <p className="text-sm sm:text-base text-justify">{item.blurb}</p>
                 <div className="mt-6 flex justify-start">
                   <button className="btn btn-soft btn-secondary border-black" onClick={() => handleClick(item._id)}>Read More</button>
                 </div>
@@ -106,12 +111,10 @@ const Blog = () => {
 
             <img className='w-full bg-cover bg-center bg-no-repeat bg-fixed' src="https://cdn.pixabay.com/photo/2015/01/08/18/29/entrepreneur-593361_1280.jpg" alt="image" />
 
-            <div className='px-10'>
-              <p className='mb-7 italic '>{blog?.body1}</p>
-              <p className=' mb-4 italic'>{blog?.body2}</p>
-              <p className='italic mb-4'>{blog?.body3}</p>
-              <p className='italic mb-4'>{blog?.body4}</p>
-              <p className='italic mb-4'>{blog?.body5}</p>
+            <div className='px-5'>
+              {blog?.body?.split("\n\n").map((paragraph, index) => (
+                <p key={index} className="mb-4 text-justify leading-8 text-sm">{paragraph}</p>
+              ))}
             </div>
             <div className='px-8'>
               <MessageCircle className='cursor-pointer' onClick={handleMessage} size={27} />
@@ -125,23 +128,29 @@ const Blog = () => {
                     <button className='btn btn-primary mt-2 ' disabled={isPending || !text.trim()} onClick={handleSubmit}>{isPending ? 'Submitting' : 'Submit'}</button>
                   </div>
                 </div>
-
               )
             }
             <div className='px-8'>
               <h1 className='font-semibold mb-2'>Comments</h1>
               {blog?.comments?.length > 0 ? (
-                blog.comments.map((item, index) => (
-                  <div className='p-2 flex justify-between mb-4 border-b border-black' key={item._id ?? index}>
-                    <p className='italic'>{user.name}</p>
-                    <p>{item.comment}</p>
-                    <button className='cursor-pointer disabled:opacity-50' aria-label="Delete comment" disabled={deleteIsPending}>
-                      <X className='cursor-pointer' onClick={() => handleDeletion(item._id)} size={17} />
-                    </button>
-                  </div>
-                ))
+                blog.comments.map((item) => {
+                  return (
+                    <div className='p-2 flex justify-between space-x-5 items-center mb-4 border-b border-black' key={item._id}>
+                      <p className='text-sm'>{item.comment}</p>
+                      <div className='flex space-x-2 items-center'>
+                        <p className='italic text-sm'>{item.user?.name ?? 'Unknown author'}</p>
+                        {user?._id === item.user?._id && (
+                          <button className='cursor-pointer border-2 rounded-lg p-2 bg-red-500' aria-label="Delete comment" disabled={deleteIsPending} onClick={() => handleDeletion(item._id)}>
+                            <p className='text-sm text-justify text-white'>Delete</p>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                  )
+                })
               ) : (
-                <p className='text-sm text-gray-500'>No comments yet.</p>
+                <p className='text-sm text-gray-700'>No comments yet.</p>
               )}
             </div>
           </div>
