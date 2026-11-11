@@ -75,7 +75,7 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
             if (error) 
                 return next(error);
             }
-                res.status(201).json(userResponse(newUser));
+            res.status(201).json(userResponse(newUser));
             });
         });
     }
@@ -146,7 +146,7 @@ export const logout: RequestHandler = (req, res, next) => {
         if (error) {
             return next(error)
         } else {
-            res.status(201).json({ message: "Logged out" })
+            res.status(201).json({ message: "Logged Out" })
         }
     })
 }
