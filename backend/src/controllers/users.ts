@@ -146,7 +146,7 @@ export const logout: RequestHandler = (req, res, next) => {
         if (error) {
             return next(error)
         } else {
-            res.status(201).json({ message: "Logged out" })
+            res.status(201).json({ message: "Logged Out" })
         }
     })
 }
