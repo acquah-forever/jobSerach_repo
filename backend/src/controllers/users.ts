@@ -75,7 +75,7 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
             if (error) 
                 return next(error);
             }
-                res.status(201).json(userResponse(newUser));
+            res.status(201).json(userResponse(newUser));
             });
         });
     }
