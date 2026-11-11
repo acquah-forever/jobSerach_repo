@@ -88,7 +88,7 @@ const Blog = () => {
                 <h2 className="wrap-break-word text-base font-semibold sm:text-lg md:text-xl text-black text-justify">{item.title}</h2>
                 <p className="text-sm sm:text-base text-justify">{item.blurb}</p>
                 <div className="mt-6 flex justify-start">
-                  <button className="btn btn-soft btn-secondary border-black" onClick={() => handleClick(item._id)}>Read More</button>
+                  <button className="btn btn-soft btn-secondary border-black" onClick={() => handleClick(item._id)}>Read More Blogs</button>
                 </div>
               </div>
             </div>
