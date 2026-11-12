@@ -41,54 +41,53 @@ interface SignUp {
 }
 
 export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (req, res, next) => {
-
     try {
-        const validateData = usersSchema.parse(req.body);
-        const { name, email, password: passwordRaw } = validateData;
+        const validateData = usersSchema.parse(req.body)
+        const { name, email, password: passwordRaw} = validateData
 
+        const existingName = await users.exists({name: name})
+        if(!existingName) {
+            throw createHttpError(409, "Username already exists")
+        }
 
-        const existingUserName = await users.exists({ name: name })
-        if (existingUserName) {
-            throw createHttpError(409, "Name Already Exists")
-        };
+        const existingEmail = await users. exists({email: email})
+        if(!existingEmail) {
+            throw createHttpError(409, "Email already exists")
+        }
 
-        const existingEmail = await users.exists({ email: email })
-        if (existingEmail) {
-            throw createHttpError(409, "Email Already Exists")
-        };
-
-        const passwordHashed = await bcrypt.hash(passwordRaw, 12);
+        const passwordHashed = await bcrypt.hash(passwordRaw, 12)
 
         const newUser = await users.create({
             name,
             email,
-            password: passwordHashed,
+            password: passwordHashed
         })
 
         req.session.regenerate((error) => {
             if (error) {
-                return next(error);
+                return next(error)
             }
-            req.session.userId = newUser._id.toString();
+            req.session.id = newUser._id.toString()
+        }) 
 
         req.session.save((error) => {
-            if (error) 
-                return next(error);
+            if (error) {
+                return next(error)
             }
-            res.status(201).json(userResponse(newUser));
-            });
-        });
+            res.status(201).json(userResponse(newUser))
+        })
+
     }
-    catch (error) {
+    catch(error) {
         if (error instanceof ZodError) {
-            throw createHttpError(400, {
+            throw createHttpError({
                 message: "Invalid data",
                 errors: error.issues
             })
         }
-        return next(error)
+        next(error)
     }
-};
+}
 
 
 interface LogIn {
