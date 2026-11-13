@@ -1,5 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { useMessage } from '../authContext/useAuth6'
+import { motion } from 'motion/react'
+
 
 interface SupportForm {
     firstName: string,
@@ -17,6 +19,16 @@ const resetAll: SupportForm = {
 }
 
 const Support = () => {
+
+    const parent = {
+        hidden: { opacity: 0, y: -70 },
+        visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.25, duration: 0.7 } }
+    }
+
+    const children = {
+        hidden: { opacity: 0, y: -71 },
+        visible: { opacity: 1, y: 0 }
+    }
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm<SupportForm>();
     const { mutate, isPending } = useMessage();
@@ -36,14 +48,14 @@ const Support = () => {
     };
 
     return (
-        <div className='relative  w-full bg-[url("https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D")] bg-scroll md:bg-fixed bg-cover bg-center bg-no-repeat'>
+        <motion.div variants={parent} initial="hidden" animate="visible" className='relative  w-full bg-[url("https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D")] bg-scroll md:bg-fixed bg-cover bg-center bg-no-repeat'>
             <div className='absolute inset-0 bg-black/50'></div>
             <div className='relative z-10 flex flex-col px-4 py-12 sm:px-6 md:px-8 lg:px-16'>
-                <div className="mt-4 mb-8 w-full max-w-5xl text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight text-white">
+                <motion.div variants={children} className="mt-4 mb-8 w-full max-w-5xl text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight text-white">
                     <h1>READY TO LAND YOUR DESIRED JOB?</h1>
                     <span>CONTACT US</span>
-                </div>
-                <form className='flex flex-col gap-5 mt-5 mb-5 w-full max-w-3xl text-base sm:text-lg text-white' onSubmit={handleSubmit(onSubmit)} action="">
+                </motion.div>
+                <motion.form variants={children} className='flex flex-col gap-5 mt-5 mb-5 w-full max-w-3xl text-base sm:text-lg text-white' onSubmit={handleSubmit(onSubmit)} action="">
                     <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6'>
                         <div className='flex flex-col gap-2'>
                             <label htmlFor="firstname">Firstname</label>
@@ -69,9 +81,9 @@ const Support = () => {
                         </div>
                     </div>
                     <button type="submit" className='animated-border px-10  w-full sm:w-fit self-center rounded-lg bg-sky-600  py-5 text-white transition-all duration-300 hover:bg-sky-700 cursor-pointer'disabled={isPending}>{isPending ? "Submitting" : "Submit"}</button>
-                </form>
+                </motion.form>
             </div>
-        </div>
+        </motion.div>
     )
 }
 
