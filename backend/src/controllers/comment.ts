@@ -11,13 +11,11 @@ export const createComment: RequestHandler<unknown, unknown, CommentInput, unkno
     try {
 
         const authenticatedUser = req.session.userId;
-
         if (!authenticatedUser) {
             throw createHttpError(401, "User not authenticated");
         }
 
         const validateData = commentSchema.parse(req.body);
-
         const { blogId, comment } = validateData;
 
         if (!mongoose.isValidObjectId(blogId)) {
@@ -25,7 +23,6 @@ export const createComment: RequestHandler<unknown, unknown, CommentInput, unkno
         }
 
         const blog = await Blog.findById(blogId);
-
         if (!blog) {
             throw createHttpError(404, "Blog not found");
         }
@@ -58,7 +55,6 @@ export const deleteComment: RequestHandler<{ commentId: string }> = async (req, 
         }
 
         const { commentId: id } = req.params;
-
         if (!mongoose.isValidObjectId(id)) {
             throw createHttpError(400, "Invalid comment Id");
         }
