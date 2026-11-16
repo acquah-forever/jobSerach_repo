@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getBlogs, getBlog } from '../api/blog'
+import { getBlogs, getBlog } from '../api/blog';
 
 export function useBlogs() {
 
@@ -11,7 +11,7 @@ export function useBlogs() {
         retry: false,
         refetchOnWindowFocus: false
     })
-}
+};
 
 export function useBlog(blogId: string | null) {
 
@@ -27,4 +27,4 @@ export function useBlog(blogId: string | null) {
         // It prevents the query from automatically executing when blogId is falsy.
 
     })
-}
+};

@@ -1,5 +1,5 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { getAbout, createAbout, updateAbout, type AboutInput } from "../api/about"
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getAbout, createAbout, updateAbout, type AboutInput } from "../api/about";
 
 export function useAbout() {
     return useQuery({
@@ -8,7 +8,7 @@ export function useAbout() {
         retry: false,
         refetchOnWindowFocus: false
     })
-}
+};
 
 export function useCreateAbout() {
     const queryClient = useQueryClient()
@@ -19,7 +19,7 @@ export function useCreateAbout() {
             queryClient.setQueryData(["about"], newAbout)
         }
     })
-}
+};
 
 export function useUpdateAbout() {
     const queryClient = useQueryClient()
@@ -30,4 +30,4 @@ export function useUpdateAbout() {
             queryClient.setQueryData(["about"], updatedAbout)
         }
     })
-}
+};
