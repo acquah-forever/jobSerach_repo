@@ -12,7 +12,7 @@ export interface Job {
     experienceLevel: string;
     requirements: string[];
     jobDescription: string;
-}
+};
 
 export async function getJobs(): Promise<Job[]> {
     const response = await fetch(`${API_URL}/jobs`);
