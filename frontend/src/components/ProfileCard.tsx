@@ -14,7 +14,7 @@ const ProfileCard = ({onClose}:ProfileCardProps) => {
     const navigate = useNavigate();
 
     const cardRef = useRef<HTMLDivElement>(null);
-     useOnClickOutside(cardRef, onClose);
+    useOnClickOutside(cardRef, onClose);
 
 
     function handleLogout() {

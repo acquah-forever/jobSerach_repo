@@ -3,7 +3,7 @@ import createHttpError from 'http-errors'
 import { RequestHandler } from 'express'
 import mongoose from 'mongoose'
 import { ZodError } from 'zod'
-import { profileSchema } from "../validation/profile"
+import { profileSchema,ProfileInput } from "../validation/profile"
 
 export const getProfile: RequestHandler = async (req, res, next) => {
     try {
@@ -22,19 +22,6 @@ export const getProfile: RequestHandler = async (req, res, next) => {
         next(error)
     }
 }
-
-
-interface ProfileInput {
-    firstName: string,
-    lastName: string,
-    country: string,
-    organization: string,
-    education: string,
-    industry: string,
-    phoneNumber: string,
-    website: string
-}
-
 
 export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unknown> = async (req, res, next) => {
     try {

@@ -1,7 +1,7 @@
 const API_URL = import.meta.env.VITE_API_URL?.trim();
 if (!API_URL) throw new Error("VITE_API_URL is not set");
 
-type SkillLevel = "" | "beginner" | "intermediate" | "advanced" | "expert"
+type SkillLevel = "" | "beginner" | "intermediate" | "advanced" | "expert";
 
 interface Application {
     _id:string,
@@ -30,7 +30,7 @@ interface Application {
     confirm2: boolean,
     createdAt: string,
 
-}
+};
 
 export type ApplicationInput = Omit<Application, "_id" | "user" | "createdAt">
 

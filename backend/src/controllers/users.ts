@@ -4,7 +4,6 @@ import createHttpError from "http-errors";
 import bcrypt from "bcrypt";
 import { loginSchema, usersSchema } from "../validation/users";
 import { ZodError } from "zod";
-
 import { Types } from "mongoose";
 
 function userResponse(user: { _id: Types.ObjectId; name: string; email: string }) {
@@ -46,12 +45,12 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
         const { name, email, password: passwordRaw} = validateData
 
         const existingName = await users.exists({name: name})
-        if(!existingName) {
+        if(existingName) {
             throw createHttpError(409, "Username already exists")
         }
 
         const existingEmail = await users. exists({email: email})
-        if(!existingEmail) {
+        if(existingEmail) {
             throw createHttpError(409, "Email already exists")
         }
 

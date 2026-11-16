@@ -9,7 +9,7 @@ export function useAuthenticatedUser() {
         retry: false,
         refetchOnWindowFocus: false
     });
-}
+};
 
 export function useSignup() {
     const queryClient = useQueryClient();
@@ -20,7 +20,7 @@ export function useSignup() {
             queryClient.setQueryData<User>(["authenticatedUser"], user);
         },
     });
-}
+};
 
 export function useLogin() {
     const queryClient = useQueryClient();
@@ -31,7 +31,7 @@ export function useLogin() {
             queryClient.setQueryData<User>(["authenticatedUser"], user);
         },
     });
-}
+};
 
 export function useLogout() {
     const queryClient = useQueryClient();
@@ -44,4 +44,4 @@ export function useLogout() {
             });
         },
     });
-}
+};
